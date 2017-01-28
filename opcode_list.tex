@@ -1,0 +1,8917 @@
+\section{ALPHABETIC OPERATION CODE LIST}
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== This appendix presents a listing of all processor instruction operation codes sorted
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== alphabetically on mnemonic. It also includes the micro operations required by the mve and mvne
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== edit instructions. The columns from left to right list the mnemonic, octal operation code value, the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== functional class, the page number in Section 4 of the instruction description, and the instruction
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== name.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The functional class codes are:
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Fixed Point
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Boolean Operations
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Point
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Pointer Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Privileged
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Miscellaneous
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Extended Instruction Set
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer of Control
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{EIS Micro Operations}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== a4bd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== a6bd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== a9bd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== aarn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== abd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== absa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ad2d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ad3d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ada
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ade
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adla
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adlaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adlq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adlxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adwp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== adxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== alr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== als
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ana
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== anaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== anq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ansa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 502
+%% ===== 
+%% ===== 
+%% ===== 501
+%% ===== 
+%% ===== 
+%% ===== 500
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 56n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 503
+%% ===== 
+%% ===== 
+%% ===== 212
+%% ===== 
+%% ===== 
+%% ===== 202
+%% ===== 
+%% ===== 
+%% ===== 222
+%% ===== 
+%% ===== 
+%% ===== 075
+%% ===== 
+%% ===== 
+%% ===== 077
+%% ===== 
+%% ===== 
+%% ===== 415
+%% ===== 
+%% ===== 
+%% ===== 033
+%% ===== 
+%% ===== 
+%% ===== 035
+%% ===== 
+%% ===== 
+%% ===== 037
+%% ===== 
+%% ===== 
+%% ===== 036
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 02n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 076
+%% ===== 
+%% ===== 
+%% ===== 050
+%% ===== 
+%% ===== 
+%% ===== 051
+%% ===== 
+%% ===== 
+%% ===== 052
+%% ===== 
+%% ===== 
+%% ===== 053
+%% ===== 
+%% ===== 
+%% ===== 150
+%% ===== 
+%% ===== 
+%% ===== 151
+%% ===== 
+%% ===== 
+%% ===== 152
+%% ===== 
+%% ===== 
+%% ===== 153
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 06n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 775
+%% ===== 
+%% ===== 
+%% ===== 735
+%% ===== 
+%% ===== 
+%% ===== 375
+%% ===== 
+%% ===== 
+%% ===== 377
+%% ===== 
+%% ===== 
+%% ===== 376
+%% ===== 
+%% ===== 
+%% ===== 355
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add 4-bit Displacement to Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add 6-bit Displacement to Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add 9-bit Displacement to Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Alphanumeric Descriptor to Address Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Bit Displacement to Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Absolute Address to A-Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Using Two Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Using Three Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Exponent
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Low to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Logical to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Logical to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Logical to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Logical to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Word Number of Pointer Register 7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== A Left Rotate
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== A Left Shift
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to Storage A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 225
+%% ===== 
+%% ===== 
+%% ===== 226
+%% ===== 
+%% ===== 
+%% ===== 226
+%% ===== 
+%% ===== 
+%% ===== 219
+%% ===== 
+%% ===== 
+%% ===== 227
+%% ===== 
+%% ===== 
+%% ===== 218
+%% ===== 
+%% ===== 
+%% ===== 265
+%% ===== 
+%% ===== 
+%% ===== 267
+%% ===== 
+%% ===== 
+%% ===== 111
+%% ===== 
+%% ===== 
+%% ===== 111
+%% ===== 
+%% ===== 
+%% ===== 160
+%% ===== 
+%% ===== 
+%% ===== 111
+%% ===== 
+%% ===== 
+%% ===== 112
+%% ===== 
+%% ===== 
+%% ===== 112
+%% ===== 
+%% ===== 
+%% ===== 112
+%% ===== 
+%% ===== 
+%% ===== 113
+%% ===== 
+%% ===== 
+%% ===== 113
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 178
+%% ===== 
+%% ===== 
+%% ===== 113
+%% ===== 
+%% ===== 
+%% ===== 107
+%% ===== 
+%% ===== 
+%% ===== 107
+%% ===== 
+%% ===== 
+%% ===== 132
+%% ===== 
+%% ===== 
+%% ===== 132
+%% ===== 
+%% ===== 
+%% ===== 132
+%% ===== 
+%% ===== 
+%% ===== 132
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ansq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ansxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== anxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== aos
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== aran
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== arl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== arnn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ars
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== asa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== asq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== asxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== awca
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== awcq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== awd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== bcd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== btd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== call6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== camp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cams
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cana
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== canaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== canq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== canxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cioc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmk
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cmpxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cnaa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cnaaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cnaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cnaxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== csl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== csr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cwl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfad
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfcmg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfcmp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfdi
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfdv
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfld
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfmp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfrd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfsb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfst
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dfstr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dis
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== div
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== drl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dtb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dufa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dufm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dufs
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dv2d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 356 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 34n (0)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 36n (0)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 054 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 54n (1)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 771 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 64n (1)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 731 (0)
+%% ===== 
+%% ===== 
+%% ===== 055 (0)
+%% ===== 
+%% ===== 
+%% ===== 056 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 04n (0)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 071 (0)
+%% ===== 
+%% ===== 
+%% ===== 072 (0)
+%% ===== 
+%% ===== 
+%% ===== 507 (1)
+%% ===== 
+%% ===== 
+%% ===== 505 (0)
+%% ===== 
+%% ===== 
+%% ===== 301 (1)
+%% ===== 
+%% ===== 
+%% ===== 713 (0)
+%% ===== 
+%% ===== 
+%% ===== 532 (1)
+%% ===== 
+%% ===== 
+%% ===== 532 (0)
+%% ===== 
+%% ===== 
+%% ===== 315 (0)
+%% ===== 
+%% ===== 
+%% ===== 317 (0)
+%% ===== 
+%% ===== 
+%% ===== 316 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 30n (0)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 015 (0)
+%% ===== 
+%% ===== 
+%% ===== 405 (0)
+%% ===== 
+%% ===== 
+%% ===== 211 (0)
+%% ===== 
+%% ===== 
+%% ===== 115 (0)
+%% ===== 
+%% ===== 
+%% ===== 117 (0)
+%% ===== 
+%% ===== 
+%% ===== 066 (1)
+%% ===== 
+%% ===== 
+%% ===== 106 (1)
+%% ===== 
+%% ===== 
+%% ===== 303 (1)
+%% ===== 
+%% ===== 
+%% ===== 116 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== l0n (0)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 215 (0)
+%% ===== 
+%% ===== 
+%% ===== 217 (0)
+%% ===== 
+%% ===== 
+%% ===== 216 (0)
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 20n (0)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 060 (1)
+%% ===== 
+%% ===== 
+%% ===== 061 (1)
+%% ===== 
+%% ===== 
+%% ===== 111 (0)
+%% ===== 
+%% ===== 
+%% ===== 477 (0)
+%% ===== 
+%% ===== 
+%% ===== 427 (0)
+%% ===== 
+%% ===== 
+%% ===== 517 (0)
+%% ===== 
+%% ===== 
+%% ===== 527 (0)
+%% ===== 
+%% ===== 
+%% ===== 567 (0)
+%% ===== 
+%% ===== 
+%% ===== 433 (0)
+%% ===== 
+%% ===== 
+%% ===== 463 (0)
+%% ===== 
+%% ===== 
+%% ===== 473 (0)
+%% ===== 
+%% ===== 
+%% ===== 577 (0)
+%% ===== 
+%% ===== 
+%% ===== 457 (0)
+%% ===== 
+%% ===== 
+%% ===== 472 (0)
+%% ===== 
+%% ===== 
+%% ===== 616 (0)
+%% ===== 
+%% ===== 
+%% ===== 506 (0)
+%% ===== 
+%% ===== 
+%% ===== 002 (0)
+%% ===== 
+%% ===== 
+%% ===== 305 (1)
+%% ===== 
+%% ===== 
+%% ===== 437 (0)
+%% ===== 
+%% ===== 
+%% ===== 423 (0)
+%% ===== 
+%% ===== 
+%% ===== 537 (0)
+%% ===== 
+%% ===== 
+%% ===== 207 (1)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to Storage Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to Storage Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== AND to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add One to Storage
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Address Register n to Alphanumeric Descriptor
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== A Right Logical
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Address Register n to Numeric Descriptor
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== A Right Shift
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Stored to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Stored to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Stored to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add with Carry to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add with Carry to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Add Word Displacement to Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Binary to Binary-Coded-Decimal
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Binary to Decimal Convert
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Call (Using PR6 and PR7)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Clear Associative Memory Pages
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Clear Associative Memory Segments
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative AND with A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative AND with AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative AND with Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative AND with Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Connect I/O Channel
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare Magnitude
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare Masked
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare with A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare with AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare Bit Strings
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare Alphanumeric Character Strings
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare Numeric
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare with Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare with Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative NOT with A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative NOT with AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative NOT with Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Comparative NOT with Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Combine Bit Strings Left
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Combine Bit Strings Right
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Compare with Limits
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Add
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Compare Magnitude
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Compare
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Divide Inverted
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Divide
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Load
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Multiply
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Round
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Subtract
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Store
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Floating Store Rounded
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Delay Until Interrupt Signal
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Divide Integer
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Derail
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Decimal to Binary Convert
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Unnormalized Floating Add
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Unnormalized Floating Multiply
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Double-Precision Unnormalized Floating Subtract
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Divide Using Two Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 133
+%% ===== 
+%% ===== 
+%% ===== 133
+%% ===== 
+%% ===== 
+%% ===== 133
+%% ===== 
+%% ===== 
+%% ===== 114
+%% ===== 
+%% ===== 
+%% ===== 222
+%% ===== 
+%% ===== 
+%% ===== 107
+%% ===== 
+%% ===== 
+%% ===== 222
+%% ===== 
+%% ===== 
+%% ===== 108
+%% ===== 
+%% ===== 
+%% ===== 114
+%% ===== 
+%% ===== 
+%% ===== 114
+%% ===== 
+%% ===== 
+%% ===== 115
+%% ===== 
+%% ===== 
+%% ===== 115
+%% ===== 
+%% ===== 
+%% ===== 115
+%% ===== 
+%% ===== 
+%% ===== 228
+%% ===== 
+%% ===== 
+%% ===== 195
+%% ===== 
+%% ===== 
+%% ===== 262
+%% ===== 
+%% ===== 
+%% ===== 162
+%% ===== 
+%% ===== 
+%% ===== 209
+%% ===== 
+%% ===== 
+%% ===== 210
+%% ===== 
+%% ===== 
+%% ===== 138
+%% ===== 
+%% ===== 
+%% ===== 138
+%% ===== 
+%% ===== 
+%% ===== 138
+%% ===== 
+%% ===== 
+%% ===== 138
+%% ===== 
+%% ===== 
+%% ===== 215
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== 128
+%% ===== 
+%% ===== 
+%% ===== 258
+%% ===== 
+%% ===== 
+%% ===== 233
+%% ===== 
+%% ===== 
+%% ===== 249
+%% ===== 
+%% ===== 
+%% ===== 128
+%% ===== 
+%% ===== 
+%% ===== 129
+%% ===== 
+%% ===== 
+%% ===== 140
+%% ===== 
+%% ===== 
+%% ===== 140
+%% ===== 
+%% ===== 
+%% ===== 140
+%% ===== 
+%% ===== 
+%% ===== 140
+%% ===== 
+%% ===== 
+%% ===== 255
+%% ===== 
+%% ===== 
+%% ===== 256
+%% ===== 
+%% ===== 
+%% ===== 130
+%% ===== 
+%% ===== 
+%% ===== 145
+%% ===== 
+%% ===== 
+%% ===== 158
+%% ===== 
+%% ===== 
+%% ===== 158
+%% ===== 
+%% ===== 
+%% ===== 151
+%% ===== 
+%% ===== 
+%% ===== 151
+%% ===== 
+%% ===== 
+%% ===== 142
+%% ===== 
+%% ===== 
+%% ===== 149
+%% ===== 
+%% ===== 
+%% ===== 156
+%% ===== 
+%% ===== 
+%% ===== 147
+%% ===== 
+%% ===== 
+%% ===== 143
+%% ===== 
+%% ===== 
+%% ===== 143
+%% ===== 
+%% ===== 
+%% ===== 218
+%% ===== 
+%% ===== 
+%% ===== 124
+%% ===== 
+%% ===== 
+%% ===== 181
+%% ===== 
+%% ===== 
+%% ===== 263
+%% ===== 
+%% ===== 
+%% ===== 145
+%% ===== 
+%% ===== 
+%% ===== 149
+%% ===== 
+%% ===== 
+%% ===== 147
+%% ===== 
+%% ===== 
+%% ===== 275
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dv3d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== dvf
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eaa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== easp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eawp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eaxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epbp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== epp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== era
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== eraq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== erq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ersa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ersq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ersxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== erxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fad
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fcmg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fcmp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fdi
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fdv
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fld
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fmp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fneg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fno
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== frd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fsb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fst
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fstr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== fszn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 227
+%% ===== 
+%% ===== 
+%% ===== 507
+%% ===== 
+%% ===== 
+%% ===== 635
+%% ===== 
+%% ===== 
+%% ===== 636
+%% ===== 
+%% ===== 
+%% ===== 311
+%% ===== 
+%% ===== 
+%% ===== 310
+%% ===== 
+%% ===== 
+%% ===== 313
+%% ===== 
+%% ===== 
+%% ===== 312
+%% ===== 
+%% ===== 
+%% ===== 331
+%% ===== 
+%% ===== 
+%% ===== 330
+%% ===== 
+%% ===== 
+%% ===== 333
+%% ===== 
+%% ===== 
+%% ===== 332
+%% ===== 
+%% ===== 
+%% ===== 310
+%% ===== 
+%% ===== 
+%% ===== 311
+%% ===== 
+%% ===== 
+%% ===== 312
+%% ===== 
+%% ===== 
+%% ===== 313
+%% ===== 
+%% ===== 
+%% ===== 330
+%% ===== 
+%% ===== 
+%% ===== 331
+%% ===== 
+%% ===== 
+%% ===== 332
+%% ===== 
+%% ===== 
+%% ===== 333
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 62n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 213
+%% ===== 
+%% ===== 
+%% ===== 350
+%% ===== 
+%% ===== 
+%% ===== 351
+%% ===== 
+%% ===== 
+%% ===== 352
+%% ===== 
+%% ===== 
+%% ===== 353
+%% ===== 
+%% ===== 
+%% ===== 370
+%% ===== 
+%% ===== 
+%% ===== 371
+%% ===== 
+%% ===== 
+%% ===== 372
+%% ===== 
+%% ===== 
+%% ===== 373
+%% ===== 
+%% ===== 
+%% ===== 350
+%% ===== 
+%% ===== 
+%% ===== 351
+%% ===== 
+%% ===== 
+%% ===== 352
+%% ===== 
+%% ===== 
+%% ===== 353
+%% ===== 
+%% ===== 
+%% ===== 370
+%% ===== 
+%% ===== 
+%% ===== 371
+%% ===== 
+%% ===== 
+%% ===== 372
+%% ===== 
+%% ===== 
+%% ===== 373
+%% ===== 
+%% ===== 
+%% ===== 675
+%% ===== 
+%% ===== 
+%% ===== 677
+%% ===== 
+%% ===== 
+%% ===== 676
+%% ===== 
+%% ===== 
+%% ===== 655
+%% ===== 
+%% ===== 
+%% ===== 656
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 64n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 66n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 475
+%% ===== 
+%% ===== 
+%% ===== 425
+%% ===== 
+%% ===== 
+%% ===== 515
+%% ===== 
+%% ===== 
+%% ===== 525
+%% ===== 
+%% ===== 
+%% ===== 565
+%% ===== 
+%% ===== 
+%% ===== 431
+%% ===== 
+%% ===== 
+%% ===== 461
+%% ===== 
+%% ===== 
+%% ===== 513
+%% ===== 
+%% ===== 
+%% ===== 573
+%% ===== 
+%% ===== 
+%% ===== 471
+%% ===== 
+%% ===== 
+%% ===== 575
+%% ===== 
+%% ===== 
+%% ===== 455
+%% ===== 
+%% ===== 
+%% ===== 470
+%% ===== 
+%% ===== 
+%% ===== 430
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Divide Using Three Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Divide Fraction
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of 0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Segment Number of PR7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective to Word/Bit Number of PR4 Address
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Word/Bit Number of PR7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Address to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer at Base to Pointer Register 7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Effective Pointer to Pointer Register 7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to Storage A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to Storage Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to Storage Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EXCLUSIVE OR to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Add
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Compare Magnitude
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Compare
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Divide Inverted
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Divide
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Load
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Multiply
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Negate
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Normalize
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Round
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Subtract
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Store
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Store Rounded
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Floating Set Zero and Negative Indicators
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 276
+%% ===== 
+%% ===== 
+%% ===== 124
+%% ===== 
+%% ===== 
+%% ===== 94
+%% ===== 
+%% ===== 
+%% ===== 94
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 94
+%% ===== 
+%% ===== 
+%% ===== 179
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 136
+%% ===== 
+%% ===== 
+%% ===== 136
+%% ===== 
+%% ===== 
+%% ===== 136
+%% ===== 
+%% ===== 
+%% ===== 136
+%% ===== 
+%% ===== 
+%% ===== 137
+%% ===== 
+%% ===== 
+%% ===== 137
+%% ===== 
+%% ===== 
+%% ===== 137
+%% ===== 
+%% ===== 
+%% ===== 145
+%% ===== 
+%% ===== 
+%% ===== 158
+%% ===== 
+%% ===== 
+%% ===== 159
+%% ===== 
+%% ===== 
+%% ===== 152
+%% ===== 
+%% ===== 
+%% ===== 152
+%% ===== 
+%% ===== 
+%% ===== 142
+%% ===== 
+%% ===== 
+%% ===== 149
+%% ===== 
+%% ===== 
+%% ===== 154
+%% ===== 
+%% ===== 
+%% ===== 155
+%% ===== 
+%% ===== 
+%% ===== 156
+%% ===== 
+%% ===== 
+%% ===== 147
+%% ===== 
+%% ===== 
+%% ===== 143
+%% ===== 
+%% ===== 
+%% ===== 144
+%% ===== 
+%% ===== 
+%% ===== 160
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== gtb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lareg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== larn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lbar
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lca
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lcaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lcpr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lcq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lcxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lda
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldac
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldbr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lde
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldi
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldqc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldt
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ldxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== llr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lls
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lpl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lpri
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lprpn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lptp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lptr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lra
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lreg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lrl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lrs
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lsdp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lsdr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lxln
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mlr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mme
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mme2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mme3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mme4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mp2d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mp3d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mpf
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mpy
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mrl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mve
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mvn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mvne
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mvt
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== narn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== neg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== negl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== nop
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ora
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== oraq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== orq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== orsa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== orsq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== orsxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== orxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== puls1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 774
+%% ===== 
+%% ===== 
+%% ===== 463
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 76n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 230
+%% ===== 
+%% ===== 
+%% ===== 335
+%% ===== 
+%% ===== 
+%% ===== 337
+%% ===== 
+%% ===== 
+%% ===== 674
+%% ===== 
+%% ===== 
+%% ===== 336
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 32n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 235
+%% ===== 
+%% ===== 
+%% ===== 034
+%% ===== 
+%% ===== 
+%% ===== 237
+%% ===== 
+%% ===== 
+%% ===== 232
+%% ===== 
+%% ===== 
+%% ===== 411
+%% ===== 
+%% ===== 
+%% ===== 634
+%% ===== 
+%% ===== 
+%% ===== 236
+%% ===== 
+%% ===== 
+%% ===== 032
+%% ===== 
+%% ===== 
+%% ===== 637
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 22n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 777
+%% ===== 
+%% ===== 
+%% ===== 737
+%% ===== 
+%% ===== 
+%% ===== 467
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 76n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 257
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 774
+%% ===== 
+%% ===== 
+%% ===== 073
+%% ===== 
+%% ===== 
+%% ===== 773
+%% ===== 
+%% ===== 
+%% ===== 733
+%% ===== 
+%% ===== 
+%% ===== 257
+%% ===== 
+%% ===== 
+%% ===== 232
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 72n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 100
+%% ===== 
+%% ===== 
+%% ===== 001
+%% ===== 
+%% ===== 
+%% ===== 004
+%% ===== 
+%% ===== 
+%% ===== 005
+%% ===== 
+%% ===== 
+%% ===== 007
+%% ===== 
+%% ===== 
+%% ===== 206
+%% ===== 
+%% ===== 
+%% ===== 226
+%% ===== 
+%% ===== 
+%% ===== 401
+%% ===== 
+%% ===== 
+%% ===== 402
+%% ===== 
+%% ===== 
+%% ===== 101
+%% ===== 
+%% ===== 
+%% ===== 020
+%% ===== 
+%% ===== 
+%% ===== 300
+%% ===== 
+%% ===== 
+%% ===== 024
+%% ===== 
+%% ===== 
+%% ===== 160
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 66n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 531
+%% ===== 
+%% ===== 
+%% ===== 533
+%% ===== 
+%% ===== 
+%% ===== 011
+%% ===== 
+%% ===== 
+%% ===== 275
+%% ===== 
+%% ===== 
+%% ===== 277
+%% ===== 
+%% ===== 
+%% ===== 276
+%% ===== 
+%% ===== 
+%% ===== 255
+%% ===== 
+%% ===== 
+%% ===== 256
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 24n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 26n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 012
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== BOOL
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Gray to Binary
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Address Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Address Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Base Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Complement A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Complement AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Central Processor Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Complement Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Complement Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load A and Clear
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Descriptor Segment Base Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Exponent
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Indicator Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Q and Clear
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Timer Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Long Left Rotate
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Long Left Shift
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Pointers and Lengths
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Pointer Registers from ITS Pairs
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Pointer Register n Packed
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Page Table Pointers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Page Table Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Ring Alarm Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Long Right Logical
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Long Right Shift
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Segment Descriptor Pointers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Segment Descriptor Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Index Register n from Lower
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Alphanumeric Left to Right
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Master Mode Entry
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Master Mode Entry 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Master Mode Entry 3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Master Mode Entry 4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Multiply Using Two Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Multiply Using Three Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Multiply Fraction
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Multiply Integer
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Alphanumeric Right to Left
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Alphanumeric Edited
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Numeric
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Numeric Edited
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Alphanumeric with Translation
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Numeric Descriptor to Address Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Negate A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Negate Long
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== No Operation
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to Storage A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to Storage Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to Storage Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== OR to Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Pulse One
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 196
+%% ===== 
+%% ===== 
+%% ===== 220
+%% ===== 
+%% ===== 
+%% ===== 219
+%% ===== 
+%% ===== 
+%% ===== 197
+%% ===== 
+%% ===== 
+%% ===== 95
+%% ===== 
+%% ===== 
+%% ===== 95
+%% ===== 
+%% ===== 
+%% ===== 198
+%% ===== 
+%% ===== 
+%% ===== 95
+%% ===== 
+%% ===== 
+%% ===== 96
+%% ===== 
+%% ===== 
+%% ===== 96
+%% ===== 
+%% ===== 
+%% ===== 96
+%% ===== 
+%% ===== 
+%% ===== 97
+%% ===== 
+%% ===== 
+%% ===== 198
+%% ===== 
+%% ===== 
+%% ===== 160
+%% ===== 
+%% ===== 
+%% ===== 97
+%% ===== 
+%% ===== 
+%% ===== 98
+%% ===== 
+%% ===== 
+%% ===== 98
+%% ===== 
+%% ===== 
+%% ===== 199
+%% ===== 
+%% ===== 
+%% ===== 99
+%% ===== 
+%% ===== 
+%% ===== 108
+%% ===== 
+%% ===== 
+%% ===== 108
+%% ===== 
+%% ===== 
+%% ===== 220
+%% ===== 
+%% ===== 
+%% ===== 173
+%% ===== 
+%% ===== 
+%% ===== 174
+%% ===== 
+%% ===== 
+%% ===== 199
+%% ===== 
+%% ===== 
+%% ===== 200
+%% ===== 
+%% ===== 
+%% ===== 200
+%% ===== 
+%% ===== 
+%% ===== 99
+%% ===== 
+%% ===== 
+%% ===== 109
+%% ===== 
+%% ===== 
+%% ===== 109
+%% ===== 
+%% ===== 
+%% ===== 201
+%% ===== 
+%% ===== 
+%% ===== 201
+%% ===== 
+%% ===== 
+%% ===== 99
+%% ===== 
+%% ===== 
+%% ===== 89
+%% ===== 
+%% ===== 
+%% ===== 184
+%% ===== 
+%% ===== 
+%% ===== 184
+%% ===== 
+%% ===== 
+%% ===== 185
+%% ===== 
+%% ===== 
+%% ===== 185
+%% ===== 
+%% ===== 
+%% ===== 272
+%% ===== 
+%% ===== 
+%% ===== 273
+%% ===== 
+%% ===== 
+%% ===== 122
+%% ===== 
+%% ===== 
+%% ===== 122
+%% ===== 
+%% ===== 
+%% ===== 244
+%% ===== 
+%% ===== 
+%% ===== 245
+%% ===== 
+%% ===== 
+%% ===== 251
+%% ===== 
+%% ===== 
+%% ===== 253
+%% ===== 
+%% ===== 
+%% ===== 247
+%% ===== 
+%% ===== 
+%% ===== 220
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== 186
+%% ===== 
+%% ===== 
+%% ===== 134
+%% ===== 
+%% ===== 
+%% ===== 134
+%% ===== 
+%% ===== 
+%% ===== 134
+%% ===== 
+%% ===== 
+%% ===== 134
+%% ===== 
+%% ===== 
+%% ===== 135
+%% ===== 
+%% ===== 
+%% ===== 135
+%% ===== 
+%% ===== 
+%% ===== 135
+%% ===== 
+%% ===== 
+%% ===== 186
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== puls2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== qlr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== qls
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== qrl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== qrs
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rccl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rcu
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ret
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rmcm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rpd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rpl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rpt
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rscr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rsw
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== rtcd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== s4bd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== s6bd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== s9bd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sareg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sarn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sb2d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sb3d
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sba
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sbaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sbar
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sbd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sbla
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sblaq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sblq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sblxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sbq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sbxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== scd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== scdr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== scm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== scmr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== scpr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== scu
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sdbr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== smcm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== smic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spbp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== spri7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 013
+%% ===== 
+%% ===== 
+%% ===== 776
+%% ===== 
+%% ===== 
+%% ===== 736
+%% ===== 
+%% ===== 
+%% ===== 772
+%% ===== 
+%% ===== 
+%% ===== 732
+%% ===== 
+%% ===== 
+%% ===== 633
+%% ===== 
+%% ===== 
+%% ===== 613
+%% ===== 
+%% ===== 
+%% ===== 630
+%% ===== 
+%% ===== 
+%% ===== 233
+%% ===== 
+%% ===== 
+%% ===== 560
+%% ===== 
+%% ===== 
+%% ===== 500
+%% ===== 
+%% ===== 
+%% ===== 520
+%% ===== 
+%% ===== 
+%% ===== 413
+%% ===== 
+%% ===== 
+%% ===== 231
+%% ===== 
+%% ===== 
+%% ===== 610
+%% ===== 
+%% ===== 
+%% ===== 522
+%% ===== 
+%% ===== 
+%% ===== 521
+%% ===== 
+%% ===== 
+%% ===== 520
+%% ===== 
+%% ===== 
+%% ===== 443
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 74n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 203
+%% ===== 
+%% ===== 
+%% ===== 223
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 177
+%% ===== 
+%% ===== 
+%% ===== 550
+%% ===== 
+%% ===== 
+%% ===== 523
+%% ===== 
+%% ===== 
+%% ===== 135
+%% ===== 
+%% ===== 
+%% ===== 137
+%% ===== 
+%% ===== 
+%% ===== 136
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 12n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 16n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 120
+%% ===== 
+%% ===== 
+%% ===== 121
+%% ===== 
+%% ===== 
+%% ===== 124
+%% ===== 
+%% ===== 
+%% ===== 125
+%% ===== 
+%% ===== 
+%% ===== 452
+%% ===== 
+%% ===== 
+%% ===== 657
+%% ===== 
+%% ===== 
+%% ===== 154
+%% ===== 
+%% ===== 
+%% ===== 553
+%% ===== 
+%% ===== 
+%% ===== 451
+%% ===== 
+%% ===== 
+%% ===== 250
+%% ===== 
+%% ===== 
+%% ===== 251
+%% ===== 
+%% ===== 
+%% ===== 252
+%% ===== 
+%% ===== 
+%% ===== 253
+%% ===== 
+%% ===== 
+%% ===== 650
+%% ===== 
+%% ===== 
+%% ===== 651
+%% ===== 
+%% ===== 
+%% ===== 652
+%% ===== 
+%% ===== 
+%% ===== 653
+%% ===== 
+%% ===== 
+%% ===== 447
+%% ===== 
+%% ===== 
+%% ===== 254
+%% ===== 
+%% ===== 
+%% ===== 250
+%% ===== 
+%% ===== 
+%% ===== 251
+%% ===== 
+%% ===== 
+%% ===== 252
+%% ===== 
+%% ===== 
+%% ===== 253
+%% ===== 
+%% ===== 
+%% ===== 650
+%% ===== 
+%% ===== 
+%% ===== 651
+%% ===== 
+%% ===== 
+%% ===== 652
+%% ===== 
+%% ===== 
+%% ===== 653
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Pulse Two
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Q Left Rotate
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Q Left Shift
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Q Right Logical
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Q Right Shift
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Read Calendar Clock
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Restore Control Unit
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Return
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Read Memory Controller Mask Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Repeat Double
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Repeat Link
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Repeat
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Read System Controller Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Read Switches
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Return Control Double
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract 4-bit Displacement from Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract 6-bit Displacement from Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract 9-bit Displacement from Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Address Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Address Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Using Two Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Using Three Decimal Operands
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract from A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract from AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Base Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Bit Displacement from Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Logical from A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Logical from AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Logical from Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Logical from Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract from Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract from Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Scan Characters Double
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Scan Characters Double in Reverse
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Scan with Mask
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Scan with Mask in Reverse
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Central Processor Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Control Unit
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Descriptor Segment Base Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set Memory Controller Mask Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set Memory Controller interrupt Cells
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Base Pointer of Pointer Register 7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointers and Lengths
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Registers as ITS Pairs
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 0 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 1 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 2 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 3 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 4 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 5 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 6 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register 7 as ITS Pair
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 186
+%% ===== 
+%% ===== 
+%% ===== 109
+%% ===== 
+%% ===== 
+%% ===== 109
+%% ===== 
+%% ===== 
+%% ===== 110
+%% ===== 
+%% ===== 
+%% ===== 110
+%% ===== 
+%% ===== 
+%% ===== 180
+%% ===== 
+%% ===== 
+%% ===== 202
+%% ===== 
+%% ===== 
+%% ===== 162
+%% ===== 
+%% ===== 
+%% ===== 212
+%% ===== 
+%% ===== 
+%% ===== 187
+%% ===== 
+%% ===== 
+%% ===== 189
+%% ===== 
+%% ===== 
+%% ===== 191
+%% ===== 
+%% ===== 
+%% ===== 212
+%% ===== 
+%% ===== 
+%% ===== 213
+%% ===== 
+%% ===== 
+%% ===== 163
+%% ===== 
+%% ===== 
+%% ===== 229
+%% ===== 
+%% ===== 
+%% ===== 229
+%% ===== 
+%% ===== 
+%% ===== 230
+%% ===== 
+%% ===== 
+%% ===== 223
+%% ===== 
+%% ===== 
+%% ===== 223
+%% ===== 
+%% ===== 
+%% ===== 270
+%% ===== 
+%% ===== 
+%% ===== 271
+%% ===== 
+%% ===== 
+%% ===== 117
+%% ===== 
+%% ===== 
+%% ===== 117
+%% ===== 
+%% ===== 
+%% ===== 194
+%% ===== 
+%% ===== 
+%% ===== 231
+%% ===== 
+%% ===== 
+%% ===== 117
+%% ===== 
+%% ===== 
+%% ===== 118
+%% ===== 
+%% ===== 
+%% ===== 118
+%% ===== 
+%% ===== 
+%% ===== 118
+%% ===== 
+%% ===== 
+%% ===== 119
+%% ===== 
+%% ===== 
+%% ===== 119
+%% ===== 
+%% ===== 
+%% ===== 234
+%% ===== 
+%% ===== 
+%% ===== 236
+%% ===== 
+%% ===== 
+%% ===== 237
+%% ===== 
+%% ===== 
+%% ===== 238
+%% ===== 
+%% ===== 
+%% ===== 203
+%% ===== 
+%% ===== 
+%% ===== 204
+%% ===== 
+%% ===== 
+%% ===== 204
+%% ===== 
+%% ===== 
+%% ===== 215
+%% ===== 
+%% ===== 
+%% ===== 215
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 223
+%% ===== 
+%% ===== 
+%% ===== 175
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 176
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sprpn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sptp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sptr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sra
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sreg
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ssa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sscr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ssdp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ssdr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ssq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ssxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sta
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stac
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stacq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== staq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stba
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stbq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stc1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stc2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stca
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stcd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stcq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ste
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sti
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stt
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== stz
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== swca
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== swcq
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== swd
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sxln
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== szn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sznc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sztl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== sztr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tct
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tctr
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== teo
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== teu
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tmi
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tmoz
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tnc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tnz
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tov
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tpl
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tpnz
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tra
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== trc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== trtf
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== trtn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsp7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 54n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 557
+%% ===== 
+%% ===== 
+%% ===== 154
+%% ===== 
+%% ===== 
+%% ===== 754
+%% ===== 
+%% ===== 
+%% ===== 753
+%% ===== 
+%% ===== 
+%% ===== 155
+%% ===== 
+%% ===== 
+%% ===== 057
+%% ===== 
+%% ===== 
+%% ===== 557
+%% ===== 
+%% ===== 
+%% ===== 254
+%% ===== 
+%% ===== 
+%% ===== 156
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 14n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 755
+%% ===== 
+%% ===== 
+%% ===== 354
+%% ===== 
+%% ===== 
+%% ===== 654
+%% ===== 
+%% ===== 
+%% ===== 757
+%% ===== 
+%% ===== 
+%% ===== 551
+%% ===== 
+%% ===== 
+%% ===== 552
+%% ===== 
+%% ===== 
+%% ===== 554
+%% ===== 
+%% ===== 
+%% ===== 750
+%% ===== 
+%% ===== 
+%% ===== 751
+%% ===== 
+%% ===== 
+%% ===== 357
+%% ===== 
+%% ===== 
+%% ===== 752
+%% ===== 
+%% ===== 
+%% ===== 456
+%% ===== 
+%% ===== 
+%% ===== 754
+%% ===== 
+%% ===== 
+%% ===== 756
+%% ===== 
+%% ===== 
+%% ===== 454
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 74n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 450
+%% ===== 
+%% ===== 
+%% ===== 171
+%% ===== 
+%% ===== 
+%% ===== 172
+%% ===== 
+%% ===== 
+%% ===== 527
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 44n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 234
+%% ===== 
+%% ===== 
+%% ===== 214
+%% ===== 
+%% ===== 
+%% ===== 064
+%% ===== 
+%% ===== 
+%% ===== 065
+%% ===== 
+%% ===== 
+%% ===== 164
+%% ===== 
+%% ===== 
+%% ===== 165
+%% ===== 
+%% ===== 
+%% ===== 614
+%% ===== 
+%% ===== 
+%% ===== 615
+%% ===== 
+%% ===== 
+%% ===== 604
+%% ===== 
+%% ===== 
+%% ===== 604
+%% ===== 
+%% ===== 
+%% ===== 602
+%% ===== 
+%% ===== 
+%% ===== 601
+%% ===== 
+%% ===== 
+%% ===== 617
+%% ===== 
+%% ===== 
+%% ===== 605
+%% ===== 
+%% ===== 
+%% ===== 605
+%% ===== 
+%% ===== 
+%% ===== 710
+%% ===== 
+%% ===== 
+%% ===== 603
+%% ===== 
+%% ===== 
+%% ===== 601
+%% ===== 
+%% ===== 
+%% ===== 600
+%% ===== 
+%% ===== 
+%% ===== 270
+%% ===== 
+%% ===== 
+%% ===== 271
+%% ===== 
+%% ===== 
+%% ===== 272
+%% ===== 
+%% ===== 
+%% ===== 273
+%% ===== 
+%% ===== 
+%% ===== 670
+%% ===== 
+%% ===== 
+%% ===== 671
+%% ===== 
+%% ===== 
+%% ===== 672
+%% ===== 
+%% ===== 
+%% ===== 673
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PREG
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== PRIV
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FIX
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Pointer Register n Packed
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Page Table Pointers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Page Table Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Ring Alarm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Stored from A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set System Controller Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Descriptor Pointers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Segment Descriptor Registers
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Stored from Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Stored from Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store A Conditional
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store A Conditional on Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store AQ
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Bytes of A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Bytes of Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Instruction Counter Plus 1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Instruction Counter Plus 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Characters of A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Control Double
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Characters of Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Exponent
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Indicator Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Timer Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Zero
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract with Carry from A
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract with Carry from Q
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Subtract Word Displacement from Address Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Store Index Register n in Lower
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set Zero and Negative Indicators
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set Zero and Negative Indicators and Clear
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set Zero and Truncation Indicators with Bit Strings Left
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set Zero and Truncation Indicators with Bit Strings Right
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Test Character and Translate
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Test Character and Translate in Reverse
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Exponent Overflow
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Exponent Underflow
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Minus
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Minus or Zero
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on No Carry
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Nonzero
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Overflow
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Plus
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Plus and Nonzero
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer Unconditionally
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Carry
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Truncation Indicator OFF
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Truncation Indicator ON
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 0
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 3
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 4
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 5
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 6
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Pointer Register 7
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 177
+%% ===== 
+%% ===== 
+%% ===== 204
+%% ===== 
+%% ===== 
+%% ===== 205
+%% ===== 
+%% ===== 
+%% ===== 193
+%% ===== 
+%% ===== 
+%% ===== 100
+%% ===== 
+%% ===== 
+%% ===== 119
+%% ===== 
+%% ===== 
+%% ===== 216
+%% ===== 
+%% ===== 
+%% ===== 206
+%% ===== 
+%% ===== 
+%% ===== 207
+%% ===== 
+%% ===== 
+%% ===== 120
+%% ===== 
+%% ===== 
+%% ===== 120
+%% ===== 
+%% ===== 
+%% ===== 100
+%% ===== 
+%% ===== 
+%% ===== 100
+%% ===== 
+%% ===== 
+%% ===== 101
+%% ===== 
+%% ===== 
+%% ===== 101
+%% ===== 
+%% ===== 
+%% ===== 101
+%% ===== 
+%% ===== 
+%% ===== 102
+%% ===== 
+%% ===== 
+%% ===== 102
+%% ===== 
+%% ===== 
+%% ===== 103
+%% ===== 
+%% ===== 
+%% ===== 103
+%% ===== 
+%% ===== 
+%% ===== 104
+%% ===== 
+%% ===== 
+%% ===== 104
+%% ===== 
+%% ===== 
+%% ===== 160
+%% ===== 
+%% ===== 
+%% ===== 105
+%% ===== 
+%% ===== 
+%% ===== 105
+%% ===== 
+%% ===== 
+%% ===== 105
+%% ===== 
+%% ===== 
+%% ===== 105
+%% ===== 
+%% ===== 
+%% ===== 106
+%% ===== 
+%% ===== 
+%% ===== 120
+%% ===== 
+%% ===== 
+%% ===== 121
+%% ===== 
+%% ===== 
+%% ===== 232
+%% ===== 
+%% ===== 
+%% ===== 106
+%% ===== 
+%% ===== 
+%% ===== 131
+%% ===== 
+%% ===== 
+%% ===== 131
+%% ===== 
+%% ===== 
+%% ===== 260
+%% ===== 
+%% ===== 
+%% ===== 260
+%% ===== 
+%% ===== 
+%% ===== 240
+%% ===== 
+%% ===== 
+%% ===== 241
+%% ===== 
+%% ===== 
+%% ===== 164
+%% ===== 
+%% ===== 
+%% ===== 164
+%% ===== 
+%% ===== 
+%% ===== 164
+%% ===== 
+%% ===== 
+%% ===== 165
+%% ===== 
+%% ===== 
+%% ===== 165
+%% ===== 
+%% ===== 
+%% ===== 165
+%% ===== 
+%% ===== 
+%% ===== 166
+%% ===== 
+%% ===== 
+%% ===== 166
+%% ===== 
+%% ===== 
+%% ===== 166
+%% ===== 
+%% ===== 
+%% ===== 167
+%% ===== 
+%% ===== 
+%% ===== 167
+%% ===== 
+%% ===== 
+%% ===== 167
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 168
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tss
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tsxn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ttf
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ttn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== tze
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ufa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ufm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ufs
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== xec
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== xed
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 715
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== 70n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 607
+%% ===== 
+%% ===== 
+%% ===== 606
+%% ===== 
+%% ===== 
+%% ===== 600
+%% ===== 
+%% ===== 
+%% ===== 435
+%% ===== 
+%% ===== 
+%% ===== 421
+%% ===== 
+%% ===== 
+%% ===== 535
+%% ===== 
+%% ===== 
+%% ===== 716
+%% ===== 
+%% ===== 
+%% ===== 717
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== TXFR
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== FLT
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MISC
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Slave
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer and Set Index Register n
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Tally Runout Indicator OFF
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Tally Runout Indicator ON
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Transfer on Zero
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Unnormalized Floating Add
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Unnormalized Floating Multiply
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Unnormalized Floating Subtract
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Execute
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Execute Double
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (1)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== (0)
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 169
+%% ===== 
+%% ===== 
+%% ===== 169
+%% ===== 
+%% ===== 
+%% ===== 170
+%% ===== 
+%% ===== 
+%% ===== 170
+%% ===== 
+%% ===== 
+%% ===== 170
+%% ===== 
+%% ===== 
+%% ===== 146
+%% ===== 
+%% ===== 
+%% ===== 150
+%% ===== 
+%% ===== 
+%% ===== 148
+%% ===== 
+%% ===== 
+%% ===== 182
+%% ===== 
+%% ===== 
+%% ===== 182
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== EIS Micro Operations
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Mnemonic
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Code
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Class
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cht
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== enf
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ign
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== insa
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== insb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== insm
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== insn
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== insp
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== lte
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mflc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mfls
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mors
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mses
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mvc
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mvza
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mvzb
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ses
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 21
+%% ===== 
+%% ===== 
+%% ===== 02
+%% ===== 
+%% ===== 
+%% ===== 14
+%% ===== 
+%% ===== 
+%% ===== 11
+%% ===== 
+%% ===== 
+%% ===== 10
+%% ===== 
+%% ===== 
+%% ===== 01
+%% ===== 
+%% ===== 
+%% ===== 12
+%% ===== 
+%% ===== 
+%% ===== 13
+%% ===== 
+%% ===== 
+%% ===== 20
+%% ===== 
+%% ===== 
+%% ===== 07
+%% ===== 
+%% ===== 
+%% ===== 06
+%% ===== 
+%% ===== 
+%% ===== 17
+%% ===== 
+%% ===== 
+%% ===== 16
+%% ===== 
+%% ===== 
+%% ===== 15
+%% ===== 
+%% ===== 
+%% ===== 05
+%% ===== 
+%% ===== 
+%% ===== 04
+%% ===== 
+%% ===== 
+%% ===== 03
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== MOP
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Page
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 280
+%% ===== 
+%% ===== 
+%% ===== 280
+%% ===== 
+%% ===== 
+%% ===== 281
+%% ===== 
+%% ===== 
+%% ===== 281
+%% ===== 
+%% ===== 
+%% ===== 282
+%% ===== 
+%% ===== 
+%% ===== 282
+%% ===== 
+%% ===== 
+%% ===== 282
+%% ===== 
+%% ===== 
+%% ===== 283
+%% ===== 
+%% ===== 
+%% ===== 283
+%% ===== 
+%% ===== 
+%% ===== 283
+%% ===== 
+%% ===== 
+%% ===== 284
+%% ===== 
+%% ===== 
+%% ===== 284
+%% ===== 
+%% ===== 
+%% ===== 285
+%% ===== 
+%% ===== 
+%% ===== 285
+%% ===== 
+%% ===== 
+%% ===== 286
+%% ===== 
+%% ===== 
+%% ===== 286
+%% ===== 
+%% ===== 
+%% ===== 287
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Name
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Change Table
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== End Floating Suppression
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Ignore Source Character
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Insert Asterisk on Suppression
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Insert Blank on Suppression
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Insert Table Entry One Multiple
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Insert On Negative
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Insert On Positive
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Load Table Entry
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move with Floating Currency Symbol Insertion
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move with Floating Sign Insertion
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move and OR Sign
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move and Set Sign
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move Source Characters
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move with Zero Suppression and Asterisk Replacement
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Move with Zero Suppression and Blank Replacement
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Set End Suppression
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage

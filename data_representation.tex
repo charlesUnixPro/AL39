@@ -1,0 +1,893 @@
+\section{DATA REPRESENTATION}
+
+
+\subsection{INFORMATION ORGANIZATION}
+
+
+The processor, like the rest of the Multics system, is organized to deal with
+information in basic units of 36-bit words. Other units of 4-, 6-, 9-bit
+characters or bytes, 18-bit half words, and 72-bit word pairs can be
+manipulated within the processor by use of the instruction set. These bit
+groupings are used by the hardware and software to represent a variety of forms
+of coded data.  Certain processor functions appear to manipulate larger units
+of 144, 288, 576, and 1152 bits, but these functions are performed by means of
+repeated use of 72-bit word pairs. All information is transmitted, stored, and
+processed as strings of binary bits. The data values are derived when the bit
+strings are interpreted according to the various formats discussed in this
+section.  
+
+\subsection{POSITION NUMBERING}
+
+The numbering of bit positions, character and byte positions, and words
+increases from 0 in the direction of conventional reading and writing: from the
+most significant to the least significant digit of a number, and from left to
+right in conventional alphanumeric text.
+
+Graphic presentations in this manual show registers and data with position
+numbers increasing from left to right.
+
+
+\subsection{NUMBER SYSTEM}
+
+
+The binary arithmetic functions of the processor are implemented in the twos
+complement, binary number system. One of the primary properties of this number
+system is that a field (or register) having width n bits may be interpreted in
+two different ways; the logical case and the arithmetic or algebraic case.
+
+In the logical case, the number is unsigned, positive, and lies in the range
+$[0,2^n-1]$ where n is the size of the register or the length of the field. The
+results of arithmetic operations on numbers for this case are interpreted as
+modulo $2^n$ numbers. Overflow is not defined for this case since the range of
+the
+field or register cannot be exceeded. The numbers 0 and $2^n-1$ are consecutive
+(not separated) in the set of numbers defined for the field or register.
+
+In the arithmetic case, the number is signed and lies in the range
+$[-2^{(n-1)},2^{(n-1)}-1]$. Overflow is defined for this case since the range
+can be
+exceeded in either direction (positive or negative).  The left-hand-most bit of
+the field or register (bit 0) serves as the sign bit and does not contribute to
+the magnitude of the number.
+
+The main advantage of this implementation is that the hardware arithmetic
+algorithms for the two cases are identical; the only distinction lying in the
+interpretation of the results by the user. Instruction set features are
+provided for performing binary arithmetic with overflow disabled (the so-called
+logical instructions) and for comparing numbers in either sense.
+
+Subtraction is performed by adding the twos complement of the subtrahend to the
+minuend.  (Note that when the subtrahend is zero the algorithm for forming the
+twos complement is still carried out, but, since the twos complement of zero is
+zero, the result is correct.)
+
+Another important feature of the twos complement number system (with respect to
+comparison of numeric values) is that the no borrow condition in true
+subtraction is identical to the carry condition in true addition and vice
+versa.
+
+A statement on the assumed location of the binary point has significance only
+for multiplication and division. These two operations are implemented for the
+arithmetic case in both integer and fraction modes. Integer means that the
+position of the binary point is assumed to the right of the least significant
+bit position, that is, to the right of the right-hand-most bit of the field or
+register, and fraction means that the position of the binary point is assumed
+to the left of the most significant bit position, that is, between bit 0 and
+bit 1 of the field or register (recall that bit 0 is the sign bit).
+
+
+\subsection {INFORMATION FORMATS}
+
+The figures that follow show the unstructured formats (templates) for the
+various information units defined for the processor. Data transfer between the
+processor and main memory is word oriented; a 36-bit machine word is
+transferred for single-precision operands and subfields of machine words, and a
+72-bit word pair is transferred for all other cases (multiword operands,
+instruction fetches, bit- and character-string operands, etc.). The information
+unit to be used and the data transfer mode are determined by the processor
+according to the function to be performed.
+
+The 36-bit unstructured machine word shown in Figure \ref{f2.1} is the minimum
+addressable information unit in main memory. Its location is uniquely
+determined by its main memory address, Y. All other information units are
+defined relative to the 36-bit machine word.
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{36}
+\\
+\bitheader{0,35} \\
+\bitbox{36}{} \\
+\bitbox[]{36}{\hfill\tiny 36}
+\end{bytefield}
+\caption{Unstructured Machine Word Format}
+\label{f2.1}
+\end{center}
+\end{figure}
+
+
+
+Two consecutive machine words as shown in Figure \ref{f2.2}, the first having
+an even main memory address, form a 72-bit word pair. In 72-bit word pair data
+transfer mode, the word pair is uniquely located by the main memory address of
+either of its constituent 36-bit machine words.  Thus, if Y is even, the word
+pair at (Y,Y+1) is selected. If Y is odd, the word pair at (Y-1,Y) is selected.
+The term Y-pair is used when referring to such a word pair.  
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}[bitwidth=0.0138\linewidth]{72}
+\\
+\bitheader{0,35,36,71} \\
+\bitbox{36}{Even word}
+\bitbox{36}{Odd word} \\
+\bitbox[]{36}{\hfill\tiny 36}
+\bitbox[]{36}{\hfill\tiny 36}
+\end{bytefield}
+\caption{Unstructured Word Pair Format}
+\label{f2.2}
+\end{center}
+\end{figure}
+
+
+Four-bit bytes are mapped onto 36-bit machine words as shown in Figure
+\ref{f2.3}. The 0 bits at bit positions 0, 9, 18, and 27 are forced to be 0 by
+the processor on data transfers to main memory and are ignored on data
+transfers from main memory.
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{36}
+\\
+\bitheader{0,1,4,5,8,9,10,13,14,17,18,19,22,23,26,27,28,31,31,35} \\
+
+\bitbox{1}{0}
+\bitbox{4}{}
+\bitbox{4}{}
+\bitbox{1}{0}
+\bitbox{4}{}
+\bitbox{4}{}
+\bitbox{1}{0}
+\bitbox{4}{}
+\bitbox{4}{}
+\bitbox{1}{0}
+\bitbox{4}{}
+\bitbox{4}{} \\
+
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{4}{\hfill\tiny 4}
+\bitbox[]{4}{\hfill\tiny 4}
+
+\end{bytefield}
+\caption{Unstructured 4-bit Byte Format}
+\label{f2.3}
+\end{center}
+\end{figure}
+
+Six-bit characters are mapped onto 36-bit machine words as shown in Figure \ref{f2.4}.
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{36}
+\\
+\bitheader{0,5,6,11,12,17,18,23,24,29,30,35} \\
+
+\bitbox{6}{}
+\bitbox{6}{}
+\bitbox{6}{}
+\bitbox{6}{}
+\bitbox{6}{}
+\bitbox{6}{} \\
+
+\bitbox[]{6}{\hfill\tiny 6}
+\bitbox[]{6}{\hfill\tiny 6}
+\bitbox[]{6}{\hfill\tiny 6}
+\bitbox[]{6}{\hfill\tiny 6}
+\bitbox[]{6}{\hfill\tiny 6}
+\bitbox[]{6}{\hfill\tiny 6} \\
+
+\end{bytefield}
+\caption{Unstructured 6-bit Character Format}
+\label{f2.4}
+\end{center}
+\end{figure}
+
+
+Nine-bit bytes are mapped onto 36-bit machine words as shown in Figure \ref{f2.5}.
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{36}
+\\
+\bitheader{0,8,9,17,18,26,27,35} \\
+
+\bitbox{9}{}
+\bitbox{9}{}
+\bitbox{9}{}
+\bitbox{9}{} \\
+
+\bitbox[]{9}{\hfill\tiny 9}
+\bitbox[]{9}{\hfill\tiny 9}
+\bitbox[]{9}{\hfill\tiny 9}
+\bitbox[]{9}{\hfill\tiny 9} \\
+
+\end{bytefield}
+\caption{Unstructured 9-bit Byte Format}
+\label{f2.5}
+\end{center}
+\end{figure}
+
+Eighteen-bit half words are mapped onto 36-bit machine words as shown in Figure
+\ref{f2.6}.
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{36}
+\\
+\bitheader{0,17,18,35} \\
+
+\bitbox{18}{}
+\bitbox{18}{} \\
+
+\bitbox[]{18}{\hfill\tiny 18}
+\bitbox[]{18}{\hfill\tiny 18} \\
+
+\end{bytefield}
+\caption{Unstructured 18-bit Half Word Format}
+\label{f2.6}
+\end{center}
+\end{figure}
+
+\subsection{DATA PARITY}
+
+Odd parity on each 36-bit machine word transferred to main memory is generated
+as it leaves the processor, is verified at several points along the
+transmission path, and is held in main memory either as an extra bit in the
+case of magnetic core memory or as part of the error detecting and correcting
+(EDAC) code in the case of magnetic oxide semiconductor (MOS) memory. If an
+incorrect parity is detected at any of the various parity check points, the
+main memory returns an illegal action signal and a code appropriate to the
+check point.
+
+On data transfers from main memory, the parity information is retrieved and
+transmitted with the data information. The same verification checks are made
+and illegal action signalled for errors. The processor makes a final parity
+check as the data enters the processor.
+
+Any detected parity error causes the processor parity indicator to be set ON
+and (if enabled) a parity fault occurs.
+
+
+\subsection{REPRESENTATION OF DATA}
+
+Data is defined by imposing an operand structure on the information units just
+described.  Data is represented in two forms: numeric or alphanumeric. The form
+is determined by the processor according to the function to be performed.
+
+In the definitions below, a\textsubscript{i} is the value of the bit in the i\textsuperscript{th} bit
+position, either 0 or 1.
+
+
+\subsubsection{Numeric Data}
+
+Numeric data is represented in three modes: fixed-point binary, floating-point
+binary, and decimal. The mode is determined by the processor according to the
+function being performed.
+
+
+
+
+
+\subsubsubsection{Fixed-point Binary Data}
+
+\paragraph{Fixed-point Binary Integers}
+\paragraph{}
+Fixed-point binary integer data is defined by imposing either of the bit
+position value expressions shown below on an information unit of n bits.
+
+
+Logical value:
+
+%\begin{equation*}
+%a0\times2(n-1) + a1\times2(n-2) + ... + ai\times2(n-i-l) + ... + an-1
+%\end{equation*}
+\hspace{1em}a\tsb{0}$\times$2\tsp{(n-1)} + a\tsb{1}$\times$2\tsp{(n-2)} + \ldots + a\tsb{i}$\times$2\tsp{(n-i-1)} + \ldots + a\tsb{(n-1)}
+
+Arithmetic value:
+
+%\begin{equation*}
+%-a0\times2(n-l) + a1\times2(n-2) + ... + ai\times2(n-i-l) + ... + an-l
+%\end{equation*}
+\hspace{1em}$-$a\tsb{0}$\times$2\tsp{(n-1)} + a\tsb{1}$\times$2\tsp{(n-2)} + \ldots + a\tsb{i}$\times$2\tsp{(n-i-1)} + \ldots + a\tsb{(n-1)}
+
+
+The following fixed-point binary integer data items are defined (also see Table
+\ref{t2.1} for values):
+
+\begin{tabular}{ c l }
+\textbf{\textit{Operand size (bits)}} & \textbf{\textit{Operand name}} \\
+6 & 6-bit character operand \\
+9 & 9-bit byte operand \\
+18 & Half word operand \\
+36 & Single-precision operand \\
+72 & Double-precision operand \\
+\end{tabular}
+
+
+Note that a 4-bit operand is not defined. This data item is defined only for
+decimal data.  (See discussion of decimal data later in this section).
+
+
+The proper operand and its position with respect to a 36-bit machine word are
+determined by the processor during preparation of the main memory address for
+the operand. If the data width of the operand selected is smaller than the
+register involved, the operand is high- or loworder zero filled as necessary.
+The values in Table \ref{t2.1} are given in terms of the operand sizes. The value an
+operand contributes to a larger field or register depends on the alignment of
+the operand with respect to the field or register.  
+
+
+\begin{table}[H]
+\begin{center}
+\caption{Fixed-Point Binary Integer Values}
+\label{t2.1}
+\begin{tabular}{ l c c c c c }
+\\
+ & & & & \textit{\textbf{36-bit}} & \textit{\textbf{72-bit}} \\
+
+ &
+\textit{\textbf{6-bit}} &
+ \textit{\textbf{9-bit}} & 
+\textit{\textbf{18-bit half}} & 
+\textit{\textbf{single}} & 
+\textit{\textbf{double}} \\
+
+\textit{\textbf{Operand}} & 
+\textit{\textbf{character}} & 
+\textit{\textbf{byte}} & 
+\textit{\textbf{word}} & 
+\textit{\textbf{precision}} & 
+\textit{\textbf{precision}} \\
+Logical & & & & & \\
+\hspace{1em}minimum & 0 & 0 & 0 & 0 & 0 \\
+\hspace{1em}maximum & 2\tsp6-1 & 2\tsp9-1 & 2\tsp{18}-1 & 2\tsp{36}-1 & 2\tsp{72}-1 \\
+\hspace{1em}resolution & 1 & 1 & 1 & 1 & 1 \\
+Arithmetic & & & & & \\
+\hspace{1em}minimum & 0 & 0 & 0 & 0 & 0 \\
+\hspace{1em}maxima & & & & & \\
+\hspace{2em}negative & -2\tsp5 & -2\tsp8 & -2\tsp{17} & -2\tsp{35} & -2\tsp{71} \\
+\hspace{2em}positive & 2\tsp5-1 & 2\tsp8-1 & 2\tsp{17}-1 & 2\tsp{35}-1 & 2\tsp{71}-1 \\
+\hspace{1em}resolution & 1 & 1 & 1 & 1 & 1 \\
+\end{tabular}
+\end{center}
+\end{table}
+
+\paragraph{Fixed-point Binary Fractions}
+\paragraph{}
+
+Fixed-point binary fraction data is defined by imposing the bit position value
+expression below on an information unit of n bits.
+
+Arithmetic value:
+
+%\begin{equation*}
+%-a0 + a1\times2-1 + a2\times2-2 + ... + ai\times2-i + ... + an-l\times2-(n-l)
+%\end{equation*}
+\hspace{1em} -a\tsb0 + a\tsb1$\times$2\tsp{-1} + a\tsb2$\times$2\tsp{-2} + ... + a\tsb{i}$\times$2\tsp{-i} + ... + a\tsb{n-l}$\times$2\tsp{-(n-l)}
+
+Note that logical values are not defined for fixed-point binary fraction data.
+
+The following fixed-point binary fraction data items are defined (also see
+Table \ref{t2.2} for values):
+
+\begin{tabular}{ c l }
+\textbf{\textit{Operand size (bits)}} & \textbf{\textit{Operand name}} \\
+6 & 6-bit character operand \\
+9 & 9-bit byte operand \\
+18 & Half word operand \\
+36 & Single-precision operand \\
+72 & Double-precision operand \\
+\end{tabular}
+
+Note that a 4-bit operand is not defined. This data item is defined only for
+decimal data.  (See discussion of decimal data later in this section.)
+Fixed-point binary fraction operands are used by the Divide Fraction (dvf) and
+Multiply Fraction (mpf) instructions only.
+
+The proper operand and its position with respect to a 36-bit machine word are
+determined by the processor during preparation of the main memory address for
+the operand. If the data width of the operand selected is smaller than the
+register involved, the operand is high- or loworder zero filled as necessary.  
+
+The values in Table \ref{t2.2} are given in terms of the operand sizes. The
+value an operand contributes to a larger field or register depends on the
+alignment of the operand with respect to the field or register.  
+
+
+\begin{table}[H]
+\begin{center}
+\caption{Fixed-Point Binary Fraction Values}
+\label{t2.2}
+\begin{tabular}{ l c c c c c }
+\\
+ & & & & \textit{\textbf{36-bit}} & \textit{\textbf{72-bit}} \\
+
+ &
+\textit{\textbf{6-bit}} &
+ \textit{\textbf{9-bit}} & 
+\textit{\textbf{18-bit half}} & 
+\textit{\textbf{single}} & 
+\textit{\textbf{double}} \\
+
+\textit{\textbf{Operand}} & 
+\textit{\textbf{character}} & 
+\textit{\textbf{byte}} & 
+\textit{\textbf{word}} & 
+\textit{\textbf{precision}} & 
+\textit{\textbf{precision}} \\
+Arithmetic & & & & & \\
+\hspace{1em}minimum & 0 & 0 & 0 & 0 & 0 \\
+\hspace{1em}maxima & & & & & \\
+\hspace{2em}negative & $-$1.0 & $-$1.0 & $-$1.0 & $-$1.0 & $-$1.0 \\
+\hspace{2em}positive & 1.0$-$2\tsp{-5} & 1.0$-$2\tsp{-8} & 1.0$-$2\tsp{-17} & 1.0$-$2\tsp{-35} & 1.0$-$2\tsp{-71} \\
+\hspace{1em}resolution & 2\tsp{-5} & 2\tsp{-8} & 2\tsp{-17} & 2\tsp{-35} & 2\tsp{-71} \\
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsubsection{Floating-point Binary Data}
+
+
+A floating-point binary number is expressed as:
+
+
+%\begin{equation*}
+%Z = M \times 2^E
+%\end{equation*}
+\hspace{1em}Z $=$ M $\times$ 2\tsp{E}
+
+where:
+
+\begin{description}
+\item M is a fixed-point binary fraction; the mantissa
+\item E is a fixed-point binary integer; the exponent
+\end{description}
+
+
+A floating-point binary number is defined by partitioning an information unit
+of n bits into two pieces; an 8-bit fixed-point binary integer exponent and an
+(n-8)-bit fixed-point binary fraction mantissa.
+
+
+The following floating-point data items are defined.
+
+
+\begin{tabular}{ c l }
+\textbf{\textit{Operand size (bits)}} & \textbf{\textit{Operand name}} \\
+18 & Half word operand \\
+36 & Single-precision operand \\
+72 & Double-precision operand \\
+\end{tabular}
+
+For clarity, the formats of these operands are shown in Figure \ref{f2.7}
+through Figure \ref{f2.9} In the figures, the fields labeled S hold sign bits
+associated with the exponent, E, and the mantissa, M.
+
+
+The floating-point binary operands are used only by the floating-point binary
+arithmetic instructions (see Section \ref{s4}). The 18-bit half word operand has
+meaning only when used in conjunction with the direct upper (du) address
+modification (see Section \ref{s6} for a discussion of address modification).
+
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{18}
+\\
+\bitheader{0,1,7,8,9,17} \\
+
+\bitbox{1}{S}
+\bitbox{7}{E}
+\bitbox{1}{S}
+\bitbox{9}{M} \\
+
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{7}{\hfill\tiny 7}
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{9}{\hfill\tiny 9} \\
+
+\end{bytefield}
+\caption{Eighteen-bit Half Word Floating-Point Binary Operand Format}
+\label{f2.7}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}{36}
+\\
+\bitheader{0,1,7,8,9,35} \\
+
+\bitbox{1}{S}
+\bitbox{7}{E}
+\bitbox{1}{S}
+\bitbox{27}{M} \\
+
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{7}{\hfill\tiny 7}
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{27}{\hfill\tiny 27} \\
+
+\end{bytefield}
+\caption{Single-Precision Floating-Point Binary Operand Format}
+\label{f2.8}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{bytefield}[bitwidth=0.0138\linewidth]{72}
+\\
+\bitheader{0,1,7,8,9,71} \\
+
+\bitbox{1}{S}
+\bitbox{7}{E}
+\bitbox{1}{S}
+\bitbox{63}{M} \\
+
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{7}{\hfill\tiny 7}
+\bitbox[]{1}{\hfill\tiny 1}
+\bitbox[]{63}{\hfill\tiny 63} \\
+
+\end{bytefield}
+\caption{DOuble-Precision Floating-Point Binary Operand Format}
+\label{f2.9}
+\end{center}
+\end{figure}
+
+The proper operand is selected by the processor during preparation of the main
+memory address for the operand.
+
+
+\paragraph{Overlength Registers}
+\paragraph{}
+
+The AQ-register is used to hold the mantissa of all floating-point binary
+numbers. The AQregister is said to be overlength with respect to the operands
+since it has more bits than are provided by the operands. Operands are
+low-order zero filled when loaded and low-order truncated (or rounded,
+depending on the instruction) when stored. Thus, the result of all
+floatingpoint instructions has more bits of precision in the AQ-register than
+may be stored.
+
+Users are cautioned that calculations involving floating-point operands may
+suffer from propagation of truncation errors even if the computation algorithms
+are designed to hold mantissas in the AQ-register as long as possible. It is
+possible to retain full AQ-register precision of intermediate results if they
+are saved with the Store AQ (\texttt{staq}) and Store Exponent (\texttt{ste})
+instructions but such saved data are not usable as a floating-point operand.  
+
+
+
+
+\paragraph{Normalized Numbers}
+\paragraph{}
+
+
+A floating-point binary number is said to be normalized if the relation
+%\begin{equation*}
+%-0.5 > M > -1 \text{\ or\ } 0.5 \leq M < 1 \text{\ or \ } [M=0 \text{\ and\ } E=-128]
+%\end{equation*}
+\begin{quotation}
+\hspace{2em}$-$0.5 $>$ M $>$ -1 or 0.5 $\leq$ M < 1 or [M$=$0 and E$=$$-$128]
+\end{quotation}
+is satisfied. This is a result of using a 2's complement mantissa. Bits 8 and 9
+are different unless the number is zero. The presence of unnormalized numbers
+in any finite mantissa arithmetic can only degrade the accuracy of results. For
+example, in an arithmetic allowing only two digits in the mantissa, the number
+0.005$\times$10\tsp2 has the value zero instead of the value one-half.  
+
+Normalization is a process of shifting the mantissa and adjusting the exponent
+until the relation above is satisfied. Normalization may be used to recover
+some or all of the extra bits of the overlength AQ-register after a
+floating-point operation.  
+
+There are cases where the limits of the registers force the use of unnormalized
+numbers.  For example, in an arithmetic allowing three digits of mantissa and
+one digit of exponent, the calculation 0.3$\times$10\tsp{-10} $-$ 0.1$\times$10\tsp{-11} (the
+normalized case) may not be made, but 0.03$\times$10\tsp{-9} $-$ 0.001$\times$10\tsp{-9} =
+0.029$\times$10\tsp{-9} (the unnormalized case) is a valid result.  
+
+Some examples of normalized and unnormalized floating-point binary numbers are:
+
+
+\begin{description}
+\item Unnormalized positive binary 0.00011010 $\times$ 2\tsp7
+\item Same number normalized 0.11010000 $\times$ 2\tsp4
+\item Unnormalized negative binary 1.11010111 $\times$ 2\tsp{-4}
+\item Same number normalized 1.01011100 $\times$ 2\tsp{-6}
+\end{description}
+
+The minimum normalized nonzero floating-point binary number is 2\tsp{-128} in
+all cases. Table \ref{t2.3} gives the values for the floating-point binary
+operands.  
+
+
+
+\begin{table}[H]
+\begin{center}
+\caption{Floating-Point Binary Operand Values}
+\label{t2.3}
+\begin{tabular}{ l c c c }
+\\
+&
+\textit{\textbf{18-bit half}} &
+\textit{\textbf{36-bit single}} &
+\textit{\textbf{72-bit double}} \\
+
+\textit{\textbf{Operand}} & 
+\textit{\textbf{word}} & 
+\textit{\textbf{precision}} & 
+\textit{\textbf{precision}} \\
+Unnormalized & & & \\
+\hspace{1em}minimum & 0\tsp{(a)} & 0\tsp{(a)} & 0\tsp{(a)} \\
+\hspace{1em}maxima & & & \\
+\hspace{2em}negative & $-$1.0$\times$2\tsp{127} & $-$1.0$\times$2\tsp{127} & $-$1.0$\times$2\tsp{127} \\
+\hspace{2em}positive & (1-2\tsp{-9}$\times$2\tsp{127} & (1-2\tsp{-27}$\times$2\tsp{127} & (1-2\tsp{-63}$\times$2\tsp{127} \\
+\hspace{1em}resolution & 1:9\tsp{(b)} & 1:9\tsp{(b)} & 1:9\tsp{(b)} \\
+\end{tabular}
+\end{center}
+\vskip 1pc
+(a)There is no unique representation for the value zero in floating-point
+binary numbers; any number with mantissa zero has the value zero. However, the
+processor treats a zero mantissa as a special case in order to preserve
+precision in later calculations with a zero intermediate result. Whenever the
+processor detects a zero mantissa as the result of a floating-point binary
+operation, the AQ-register is cleared to zeros and the E register is set to
+-128. This representation is known as a floating-point normalized zero. The
+unnormalized zero (any zero mantissa) will be handled correctly if encountered
+in an operand but precision may be lost. For example, A$\times$10\tsp{-14} +
+0$\times$10\tsp{38} will not produce desired results since all the precision of A
+will be lost when it is aligned to match the 10\tsp{38} exponent of the 0.
+
+\vskip 1pc
+(b)A value cannot be given for resolution in these cases since such a value
+depends on the value of the exponent, E. The notation used, l:m, indicates
+resolution to 1 bit in a field of m. Thus, the following general statement on
+resolution may be made:
+
+\vskip 1pc
+\begin{description}
+\item The resolution of a floating-point binary operand with mantissa length m and exponent
+value E is 2i\tsp{(E-m)}.
+\end{description}
+
+\end{table}
+
+
+
+\subsubsubsection{Decimal Data}
+
+Decimal numbers are expressed in the following forms:
+
+
+Fixed-point, no sign MMMMMM.
+
+Fixed-point, leading sign $\pm$MMMMMM.
+
+Fixed-point, trailing sign MMMMMM.$\pm$
+
+Floating-point $\pm$MMMMMM.$\times$10\tsp{E}
+
+The form is specified by control information in the operand descriptor for the
+operand as used by the Extended Instruction Set (EIS) instructions (see Section
+\ref{s4} for a discussion of the EIS instructions).
+
+A decimal number is defined by imposing any of the byte position value
+expressions below on a 4- or 9-bit byte information unit of length $n$ bytes.
+
+
+Fixed-point, no sign:
+
+%\begin{equation*}
+%c_0\times10^{(n-1)} + c_1\times10^{(n-2)} + ... + c_{(n-1)}
+%\end{equation*}
+\hspace{1em}c\tsb{0} $\times$ 10\tsp{(n-1)} + c\tsb{1} $\times$ 10\tsp{(n-2)} + \ldots + c\tsb{(n-1)}
+
+
+Fixed-point, leading sign:
+
+%\begin{equation*}
+%[\text{sign}=c_0] c_1\times10^{(n-2)} + c_2\times10^{(n-3)} + ... + c_{(n-1)}
+%\end{equation*}
+\hspace{1em}[sign=c\tsb{0}] c\tsb{1} $\times$ 10\tsp{(n-2)} + c\tsb{2} $\times$ 10\tsp{(n-3)} + \ldots + c\tsb{(n-1)}
+
+Fixed-point, trailing sign:
+
+%\begin{equation*}
+%c_0\times10^{(n-2)} + c_1\times10{(n-3)} + ... + c_{(n-2)} [%\text{sign}=c_{(n-1)}]
+%\end{equation*}
+\hspace{1em}c\tsb{0} $\times$ 10\tsp{(n-2)} + c\tsb{1} $\times$ 10\tsp{(n-3)} + \ldots + c\tsb{(n-2)} [sign\tsb{(n-1)}]
+
+Floating-point:
+
+%\begin{equation*}
+%[\text{sign}=c_0] c_1\times10_{(n-3)} + c_2\times10_{(n-4)} + ... + c_{(n-3)} [\text{exponent}=8 bits]
+%\end{equation*}
+\hspace{1em}[sign=c\tsb{0}] c\tsb{1} $\times$ 10\tsp{(n-3)} + c\tsb{2} $\times$ 10\tsp{(n-4)} + \ldots + c\tsb{(n-3)} [exponent=8 bits]
+
+where:
+
+\begin{description}
+
+\item
+c\tsb{i} is the decimal value of the byte in the i\tsp{th} byte position.
+
+\item
+$[$sign=c\tsb{i}$]$ indicates that c\tsb{i} is interpreted as a sign byte.
+
+\item
+$[$exponent=8 bits$]$ indicates that the exponent value is taken from the last 8
+bits of the string. If the data is in 9-bit bytes, the exponent is bits 1-8 of
+c\tsb{(n-1)}. If the data is in 4bit bytes, the exponent is the binary value of the
+concatenation of c\tsb{(n-2)} and c\tsb{(n-1)}.  
+
+\end{description}
+
+The decimal number as described above is the only decimal data item defined. It
+may begin on any legal byte boundary (without regard to word boundaries) and
+has a maximum extent of 63 bytes.
+
+
+The processor handles decimal data as 4-bit bytes internally. Thus, 9-bit bytes
+are highorder truncated as they are transferred from main memory and high-order
+filled as they are transferred to main memory. The fill pattern is {``}00011''b
+for digit bytes and {``}00010''b for sign bytes. The floating-point exponent is
+a special case and is treated as a fixed-point binary integer.
+
+\cac {Changed {``}00010'' to {``}00010''b.}
+
+The processor performs validity checking on decimal data. Only the byte values
+[0,11]\tsb{8} are legal in digit positions and only the byte values $[12,17]_8$ are
+legal in sign positions. Detection of an illegal byte value causes an illegal
+procedure fault. The interpretation of decimal sign bytes is shown in Table
+\ref{t2.4}.
+
+\begin{table}[H]
+\begin{center}
+\caption{Decimal Sign Character Interpretation}
+\label{t2.4}
+\begin{tabular}{ c c c }
+\\
+\textit{\textbf{9-bit}} & \textit{\textbf{4-bit}} & \\
+
+\textit{\textbf{bytes}} & 
+\textit{\textbf{bytes}} & 
+\textit{\textbf{Interpretation}} \\
+52\tsb{8}          & 12\tsb{8} & + \\
+53\tsb{8}\tsp{(a)} & 13\tsb{8}\tsp{(b)} & + \\
+54\tsb{8}          & 14\tsb{8}\tsp{(a)} & + \\
+55\tsb{8}\tsp{(a)} & 15\tsb{8}\tsp{(a)} & - \\
+56\tsb{8}          & 16\tsb{8} & + \\
+57\tsb{8}          & 17\tsb{8} & + \\
+\end{tabular}
+\end{center}
+
+
+\vskip 1pc
+(a)This value is used as the default sign byte for storage of results. The
+presence of other values will yield correct results according to the
+interpretation.
+
+\vskip 1pc
+(b)An optional control bit in the EIS decimal arithmetic instructions (see
+Section 4) allows the selection of 13\tsb{8} for the plus sign byte for storage of
+results in 4-bit data mode.
+\end{table}
+
+
+\paragraph{Decimal Data Values}
+\paragraph{}
+
+The operand descriptors for decimal data operands have a 6-bit fixed-point
+binary integer field for specification of a scaling factor (SF). This scaling
+factor has the same effect as the value of E in floating-point decimal
+operands; a negative value moves the assumed decimal point to the left; a
+positive value, to the right. The use of the scaling factor extends the range
+and resolution of decimal data operands. The range of the scaling factor is
+[-32,31]10. See Table 2-5 for decimal data operand values.
+
+Table 2-5. Decimal Data Values
+
+(a)As in floating-point binary arithmetic, there is no unique representation of
+the value zero except in the case of fixed-point, unsigned data. Therefore, the
+processor detects a zero result and forces a value of +0. for fixed-point,
+signed data and +0.$\times$10127 for floating-point data. Again, as in
+floating-point binary arithmetic, other representations of the value zero will
+be handled correctly except for possible loss of precision during operand
+alignment.  
+
+(b)A value cannot be given for resolution in these cases since such a value
+depends on the value of the scaling factor, SF. The notation used, 1:SF,
+indicates resolution to 1 part in 10 (SF). Thus, the following general
+statement on resolution may be made: 
+
+The resolution of a fixed-point decimal operand with scaling factor SF is 10SF.
+
+
+(c)A value cannot be given for resolution in these cases since such a value
+depends on the value of the exponent, E. The notation used, 1:E, indicates
+resolution to 1 part in 10(E). Thus, the following general statement on
+resolution may be made: 
+
+The resolution of a floating-point decimal operand with exponent E is 10(E).
+
+The scaling factor is ignored by the hardware.
+
+
+\subsubsection{Alphanumeric Data}
+
+Alphanumeric data is represented in two modes; character-string and bit-string.
+The mode is determined by the processor according to the function being
+performed.
+
+
+\subsubsubsection{Character String Data}
+
+Character string data is defined by imposing the character position structure
+below on a 4bit, 6-bit, or 9-bit information unit of length n bytes or
+characters.  
+\begin{quotation}
+c\tsb{0} $||$ c\tsb{1} $||$ ... $||$ c\tsb{(n-1)}
+\end{quotation}
+where:
+\begin{quotation}
+c\tsb{i} is the character in the ith character position.
+
+$||$ indicates the concatenation operation.
+\end{quotation}
+
+
+The character string described above is the only character string data item
+defined. It may begin on any legal character boundary (without regard to word
+boundaries) and has a maximum extent as shown in Table 2-6.
+
+
+
+
+
+Table 2-6. Character String Data Length Limits
+
+No interpretation of the characters is made except as specified for the instruction being executed (see Section 4).
+
+\subsubsubsection{Bit String Data}
+
+Bit string data is defined by imposing the bit position structure below on a
+bit information unit of length n bits.
+\begin{quotation}
+b\tsb{0} $||$ b\tsb{1} $||$ ... $||$ b\tsb{(n-1)}
+\end{quotation}
+where:
+\begin{quotation}
+b\tsb{i} is the character in the ith character position.
+$||$ indicates the concatenation operation.
+\end{quotation}
+
+The bit string described above is the only bit string data item defined. It may
+begin at any bit position (without regard to character or word boundaries) and
+has a maximum extent of 9437184 bits.  
+

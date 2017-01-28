@@ -1,0 +1,299 @@
+
+\section{INTRODUCTION}
+
+The processor described in this reference manual is a hardware module designed
+for use with Multics. The many distinctive features and functions of Multics
+are enhanced by the powerful hardware features of the processor. The addressing
+features, in particular, are designed to permit the Multics software to compute
+relative and absolute addresses, locate data and programs in the Multics
+virtual memory, and retrieve such data and programs as necessary.
+
+%%\addcontentsline{toc}{subsection}{MULTICS PROCESSOR FEATURES}
+\subsection{MULTICS PROCESSOR FEATURES}
+
+
+The Multics processor contains the following general features:
+
+\begin{enumerate}
+
+\item
+Storage protection to place access restrictions on specified segments.
+
+\item
+Capability to interrupt program execution in response to an external
+signal (e.g., I/O termination) at the end of any even/odd instruction pair
+(midinstruction interrupts are permitted for some instructions), to save
+processor status, and to restore the status at a later time without loss of
+continuity of the program.
+
+\item
+Capability to fetch instruction pairs and to buffer two instructions (up
+to four instructions, depending on certain main memory overlap conditions)
+including the one currently in execution.
+
+
+\item
+Overlapping instruction execution, address preparation, and instruction fetch.
+While an instruction is being executed, address preparation for the next
+operand (or even the operand following it) or the next instruction pair is
+taking place. The operations unit can be executing instruction N, instruction
+N+1 can be buffered in the operations unit (with its operand buffered in a main
+memory port), and the control unit can be executing instructions N+2 or N+3 (if
+such execution does not involve the main memory port or registers of
+instructions N or N+1) or preparing the address to fetch instructions N+4 and
+N+5. This includes the capability to detect store instructions that alter the
+contents of buffered instructions and the ability to delay preprocessing of an
+address using register modification if the instruction currently in execution
+changes the register to be used in that modification.  
+
+
+
+\item
+Interlacing capability to direct main memory accesses to interlaced system
+controller modules.
+
+
+\item
+Intermediate storage of address and control information in high-speed registers
+addressable by content (associative memory).
+
+
+\item
+Intermediate storage of base address and control information in pointer
+registers that are loaded by the executing program.
+
+
+\item
+Absolute address computation at execution time.
+
+\item
+Ability to hold recently referenced operands and instructions in a high-speed
+lookaside memory (cache option).
+
+
+\end{enumerate}
+
+
+
+
+\subsubsection{Segmentation and Paging}
+A segment is a collection of data or instructions that is assigned a symbolic
+name and addressed symbolically by the user. Paging is controlled by the system
+software; the user need not be aware of the existence of pages. User-visible
+address preparation is concerned with the calculation of a virtual memory
+address; the processor hardware completes address preparation by translating
+the final virtual memory address into an absolute main memory address. The user
+may view each of his segments as residing in an independent main memory unit.
+Each segment has its own origin that can be addressed as location zero. The
+size of each segment varies without affecting the addressing of the other
+segments.  Each segment can be addressed like a conventional main memory image
+starting at location zero. Maximum segment size is 262,144 words.
+
+When viewed from the processor, main memory consists of blocks or page frames,
+each of which has a length of {``}page-size'' words. The page size used by
+Multics is 1024 words. Each frame begins at an absolute address which is zero
+modulo the page size. Any page of a segment can be placed in any available main
+memory frame. These pages may be addressed as if they were contiguous, even
+though they may be in widely scattered absolute locations. Only currently
+referenced pages need be in main memory. A segment need not be paged, in which
+case the complete segment is located in contiguous words of main memory. In
+Multics, all user segments are paged. See Section \ref{s5} for additional discussion.
+
+\subsubsection{Address Modification and Address Appending}
+
+Before each main memory access, two major phases of address preparation take place:
+
+\begin{enumerate}
+
+\item
+Address modification by register or indirect word content, if specified by the
+instruction word or indirect word.
+
+\item
+Address appending, in which a virtual memory address is translated into an
+absolute address to access main memory.
+
+\end{enumerate}
+
+Although the above two types of modification are combined in most operations,
+they are described separately in Sections \ref{s5} and \ref{s6}. The address modification
+procedure can go on indefinitely, with one type of modification leading to
+repetitions of the same type or to other types of modification prior to a main
+memory access for an operand.  
+
+\subsubsection{Faults and Interrupts}
+
+The processor detects certain illegal instruction usages, faulty communication
+with the main memory, programmed faults, certain external events, and
+arithmetic faults. Many of the processor fault conditions are deliberately or
+inadvertently caused by the software and do not necessarily involve error
+conditions. The processor communicates with the other system modules (I/O
+multiplexers, bulk store controllers, and other processors) by setting and
+answering external interrupts. When a fault or interrupt is recognized, a
+{``}trap'' results. The trap causes the forced execution of a pair of
+instructions in a main memory location, unique to the fault or interrupt, known
+as the fault or interrupt vector. The first of the forced instructions may
+cause safe storage of the processor status. The second instruction in a fault
+vector should be some form of transfer, or the faulting program will be resumed
+at the point of interruption. Faults and interrupts are described in Section 7.
+
+
+Interrupts and certain low-priority faults are recognized only at specific
+times during the execution of an instruction pair. If, at these times, bit 28
+in the instruction word is set ON, the trap is inhibited and program execution
+continues. The interrupt or fault signal is saved for future recognition and is
+reset only when the trap occurs.
+
+
+\subsection{PROCESSOR MODES OF OPERATION}
+
+
+There are three modes of main memory addressing (absolute mode, append mode,
+and BAR mode), and two modes of instruction execution (normal mode and
+privileged mode).
+
+\subsubsection{Instruction Execution Modes}
+
+
+\subsubsubsection{Normal Mode} 
+
+
+Most instructions can be executed in the normal mode. Certain instructions, classed as
+privileged, cannot be executed in normal mode. These are identified in the individual instruction
+descriptions. An attempt to execute privileged instructions while in the normal mode results in an
+illegal procedure fault. The processor executes instructions in normal mode only if it is forming
+addresses in append mode and the segment descriptor word (SDW) for the executing segment
+specifies a nonprivileged procedure.
+
+
+\subsubsubsection{Privileged Mode}
+
+In privileged mode, all instructions can be executed. The processor executes instructions in
+privileged mode when forming addresses in absolute mode or when forming addresses in append
+mode and the segment descriptor word (SDW) for the segment in execution specifies a privileged
+procedure and the execution ring is equal to zero. See Sections 5 and 7 for additional discussion.
+
+
+\subsubsection{Addressing Modes}
+
+\subsubsubsection{Absolute Mode}
+
+In absolute mode, the final computed address is treated as the absolute main
+memory address unless the appending hardware mechanism is invoked for a
+particular main memory reference. During instruction fetches, the procedure
+pointer register is ignored. The processor enters absolute mode when it is
+initialized or immediately after a fault or interrupt. It remains in absolute
+mode until it executes a transfer instruction whose operand is obtained via
+explicit use of the appending hardware mechanism.
+
+The appending hardware mechanism may be invoked for an instruction by setting
+bit 29 of the instruction word ON to cause a reference to a properly loaded
+pointer register or by the use of indirect-to-segment (its) or
+indirect-to-pointer (itp) modification in an indirect word.  
+
+\subsubsubsection{Append Mode}
+
+
+The append mode is the most commonly used main memory addressing mode. In
+append mode the final computed address is either combined with the procedure
+pointer register, or it is combined with one of the eight pointer registers. If
+bit 29 of the instruction word contains a 0, then the procedure pointer
+register is selected; otherwise, the pointer register given by bits 0-2 of the
+instruction word is selected.  
+
+\subsubsubsection{BAR Mode}
+
+In BAR mode, the base address register (BAR) is used. The BAR contains an
+address bound and a base address. All computed addresses are relocated by
+adding the base address. The relocated address is combined with the procedure
+pointer register to form the virtual memory address. A program is kept within
+certain limits by subtracting the unrelocated computed address from the address
+bound. If the result is zero or negative, the relocated address is out of
+range, and a store fault occurs.  
+
+\subsection{PROCESSOR UNIT FUNCTIONS}
+
+
+Major functions of each principal logic element are listed below and are
+described in subsequent sections of this manual.
+
+
+\subsubsection{Appending Unit}
+
+\begin{description}
+
+\item
+Controls data input/output to main memory
+
+\item
+Performs main memory selection and interlace
+
+\item
+Does address appending
+
+\item
+Controls fault recognition
+
+\item
+Interfaces with cache
+
+\end{description}
+
+
+\subsubsection{Associative Memory Assembly}
+
+
+This assembly consists of sixteen 51-bit page table word associative memory
+(PTWAM) registers and sixteen 108-bit segment descriptor word associative
+memory (SDWAM) registers.  These registers are used to hold pointers to most
+recently used segments (SDWs) and pages (PTWs). This unit reduces the need for
+possible multiple main memory accesses before obtaining an absolute main memory
+address of an operand or instruction.  
+
+
+
+\subsubsection{Control Unit}
+
+\begin{description}
+
+\item
+Performs address modification
+
+\item
+Controls mode of operation (privileged, normal, etc.)
+
+\item
+Performs interrupt recognition
+
+\item
+Decodes instruction words and indirect words
+
+\item
+Performs timer register loading and decrementing
+
+\end{description}
+
+\subsubsection{Operation Unit}
+
+\begin{description}
+
+\item
+Does fixed- and floating-binary arithmetic
+
+\item
+Does shifting and Boolean operations
+
+\end{description}
+
+\subsubsection{Decimal Unit}
+
+\begin{description}
+
+\item
+Does decimal arithmetic
+
+\item
+Does character-string and bit-string operations
+
+\end{description}
+

@@ -1,0 +1,1802 @@
+
+\section{DPS/L68 CACHE MEMORY OPERATION}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The Multics processor may be fitted with an optional cache memory. The operation of this
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cache memory is described in this section.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsection{PHILOSOPHY OF CACHE MEMORY}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory is a high speed buffer memory located within the processor that is
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== intended to hold operands and/or instructions in expectation of their immediate use. This concept
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== is different from that of holding a single operand (such as the divisor for a divide instruction) in the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== processor during execution of a single instruction. A cache memory depends on the locality of
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== reference principle. Locality of reference involves the calculation of the probability, for any value
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== of d, that the next instruction or operand reference after a reference to the instruction or operand
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== at location A is to location A+d.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The calculation of probabilities for a set of values of d requires the statistical analysis of
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== large volumes of real and simulated instruction sequences and data organizations. If it can be
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== shown that the average expected data/instruction access time reduction (over the range 1 to d) is
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== statistically significant in comparison to the fixed main memory access time, then the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== implementation of a cache memory with block size d will contribute a significant improvement in
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== performance.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The results of such studies for the Multics processor with a cache memory as described
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== below (with d!=!4) show a hit probability ranging between 80 and 95 percent (depending on
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== instruction mix and data organization) and a performance improvement ranging up to 30 percent.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsection{CACHE MEMORY ORGANIZATION}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory is implemented as 2048 36-bit words of high-speed register storage with
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== associated control and content directory circuitry within the processor. It is fully integrated with
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== the normal data path circuitry and is virtually invisible to all programming sequences. Parity is
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== generated, stored, and/or checked on each data reference. The total storage is divided into 512
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== blocks of 4 words each and the blocks are organized into 128 columns of four levels each.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{Cache Memory / Main Memory Mapping}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Main memory is mapped into the cache memory as described below and shown in Figure
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 9-1.
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Main memory is divided into N blocks of 4 words each arranged in ascending order
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== and numbered with the value of Y15,21 of the first word of the block.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== All main memory blocks with numbers n modulo 128 are grouped associatively with
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cache memory column n.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Each cache memory column may hold any four blocks of the associated set of main
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== memory blocks.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Each cache memory column has associated with it a four entry directory (one entry for
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== each level) and a 2-bit round robin counter. Parity is generated, stored, and checked
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== on each directory entry.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== A cache directory entry consists of a 15-bit ADDRESS register, a pre-set, 2-bit level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== number value and a level full flag bit.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== When a main memory block is loaded into a cache memory block at some level in the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== associated column, the directory ADDRESS register for that column and level is
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== loaded with Y0,14. (Level selection is discussed in {``}Cache Memory Control'' later in
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== this section.)
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Main
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Memory
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0,3
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 4,7
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 8,11
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 128
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 512,515
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 129
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 516,519
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== N-128
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== -512,-509
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== N-127
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== -508,-505
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 504,507
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 508,511
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 130
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 520,523
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 254
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1016,1019
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 255
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1020,1023
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== N-126
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== -504,-501
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== N-2
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== -8,-5
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== N-1
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Words
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== -4,-1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Cache
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Memory
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 3
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 3
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 2
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 3
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== ...
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 126
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 3
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Column
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 127
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 3
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Figure 9-1. Main Memory/Cache Memory Mapping
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{Cache Memory Addressing}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== For a read operation, the 24-bit absolute main memory address prepared by the appending
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== unit is presented simultaneously to the cache control and to the main memory port selection
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== circuitry. While port selection is being accomplished, the cache memory is accessed as follows.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Yl5,21 are used to select a cache memory column.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Y0,14 are matched associatively against the four directory ADDRESS registers for the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== selected column.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== If a match occurs for a level whose full flag is ON, a hit is signaled, the main memory
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== reference cycle is canceled, and the level number value is read out.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The level number value and Y22,23 are used to select the level and word in the selected
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== column and the cache memory data is read out into the data circuitry.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== If no hit is signaled, the main memory reference cycle proceeds and a cache memory
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== block load cycle is initiated (see {``}Cache Memory Control'' below).
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== For a write operation, the 24-bit absolute main memory address prepared by the appending
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== unit is presented simultaneously to the cache control and to the main memory port selection
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== circuitry. While port selection is being accomplished, the cache memory is accessed as follows.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Y15,21 are used to select a cache memory column.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Y0,14 are matched associatively against the four directory ADDRESS registers for the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== selected column.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== If a match occurs for a level whose full flag is ON, a hit is signaled and the level
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== number value is read out.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The level number value and Y22,23 are used to select the level and word in the selected
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== column, a cache memory write cycle is enabled, and the data is written to the main
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== memory and the cache memory simultaneously.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== If no hit is signaled, the main memory reference cycle proceeds with no further cache
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== memory action.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+
+\subsection{CACHE MEMORY CONTROL}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{Enabling and Disabling Cache Memory}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory is controlled by the state of several bits in the cache mode register (see
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Section 3). The cache mode register may be loaded with the Load Central Processor Register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== (lcpr) instruction. The cache memory control bits are as follows:
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== bit
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 54
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 55
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 56
+%% ===== 
+%% ===== 
+%% ===== 57
+%% ===== 
+%% ===== 
+%% ===== 59
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== NOTE:
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Value Action
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The lower half of the cache memory (levels 0 and 1) is disabled.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The lower half of the cache memory is active and enabled as per the state of bits
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 56-57.
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The upper half of the cache memory (levels 2 and 3) is disabled.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The upper half of the cache memory is active and enabled as per the state of bits
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 56-57.
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory (if active) is not used for operands and indirect words.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory (if active) is used for operands and indirect words.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory (if active) is not used for instructions.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory (if active) is used for instructions.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 0
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache-to-register mode is not in effect (see {``}Dumping the Cache Memory''
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== later in this section).
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 1
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache-to-register mode is in effect.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory option furnishes a switch panel maintenance aid that attaches to the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== free edge of the cache memory control logic board. The switch panel provides six
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== switches for manual control of the cache memory:
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Four of the switches inhibit the control functions of bits 54-57 of the cache mode
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== register and have the effect of forcing the corresponding function to be disabled.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The fifth switch inhibits the store-aside feature wherein the processor is permitted to
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== proceed immediately after the cache memory write cycle on write operations without
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== waiting for a data acknowledgment from main memory. (There is no software control
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== corresponding to this switch).
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The sixth switch forces the enabled condition on all cache memory controls (except
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cache-to-register mode) without regard to the corresponding cache mode register
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== control bit.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== There is no switch corresponding to the cache-to-register control bit.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== While these switches are intended primarily for maintenance sessions, they have been
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== found useful in testing the cache memory during normal operation and in permitting
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== operation of the processor with the cache memory in degraded or partially disabled
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== mode.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{Cache Memory Control in Segment Descriptor Words}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Certain data have characteristics such that they should never be loaded into the cache
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== memory. Primary examples of such data are hardware mailboxes for the I/O multiplexer, bulk
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== store controller, etc., status return words, and various dynamic operating system data base
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== segments. In general, any data that is modified by an agency external to a processor with the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== intent to convey information to that processor should never be loaded into cache memory.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+%% ===== Bit 57 of the segment descriptor word is used to reflect this property of {``}encacheability'' for
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== each segment. (See Section 5 for a discussion of the segment descriptor word.) If the bit is set
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== ON, data from the segment may be loaded into the cache memory; if the bit is OFF, they may not.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The operating system may set bit 57 ON or OFF as appropriate for the use of the segment.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{Loading the Cache Memory}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory is loaded with data implicitly whenever a cache memory block load is
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== required. (See the discussion of read operations in {``}Cache Memory Addressing'' earlier in this
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== section.) There is no explicit method or instruction to load data into the cache memory.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== When a cache memory block load is required, the level is selected from the value of the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== round robin counter for the selected column, and the cache memory write function is enabled.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== (The round robin counter contains the number of the least recently loaded level.) When the data
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== arrives from main memory, it is written into the cache memory and entered into the data circuitry.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The processor proceeds with the execution of the instruction requiring the operand if appropriate.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== When the cache memory write is complete, further virtual address formation is inhibited,
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Y22 is inverted, and a second main memory access for the other half of the block is made. When
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== the second half data arrives from main memory, it is written into the cache memory, Y0,14 are
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== loaded into the directory ADDRESS register, the level full flag is set ON, the round robin counter is
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== advanced by 1, and virtual address formation is permitted to proceed.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== If all four level full flags for a column are set ON, a column full flag is also set ON and
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== remains ON until one or more levels in the column are cleared.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsection{Clearing the Cache Memory}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Cache memory can be cleared in two ways; general clear and selective clear. The clearing
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== action is the same in both cases, namely, the full flags of the selected column(s) and/or level(s) are
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== set OFF.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsubsection{General Clear}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The entire cache memory is cleared by setting all column and level full flags to OFF in the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== following situations:
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Upper or lower cache memory or both becoming enabled by appropriate bits in the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== operand of the Load Central Processor Register (lcpr) instruction or by action of the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cache memory control logic board free edge switches.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Execution of a Clear Associative Memory Segments (cams) instruction with bit 15 of
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== the address field set ON.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+
+\subsubsubsection{Selective Clear}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The cache memory is cleared selectively as follows:
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== If a read-and-clear operation (ldac, sznc, etc.) results in a hit on the cache memory,
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== that cache memory block hit is cleared.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Execution of a Clear Associative Memory Pages (camp) instruction with address bit 15
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== set ON causes Y13,14 to be matched against all cache directory ADDRESS registers.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== All cache memory blocks hit are cleared.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== \newpage
+
+\subsubsection{Dumping the Cache Memory}
+
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== When the cache-to-register mode flag (bit 59 of the cache mode register) is set ON, the
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== processor is forced to fetch the operands of all double-precision operations unit load operations
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== from the cache memory. Y0,12 are ignored, Y15,21 select a column, and Y13,14 select a level. All
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== other operations (e.g., instruction fetches, single-precision operands, etc.) are treated normally.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== Note that the phrase {``}treated normally'' as used here includes the case where the cache
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== memory is enabled. If the cache memory is enabled, the {``}other'' operations causes normal block
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== loads and cache memory writes thus destroying the original contents of the cache memory. The
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== cache memory should be disabled before dumping is attempted.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== An indexed program loop involving the ldaq and staq instructions with the cache-toregister mode bit set ON serves to dump any or all of the cache memory.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== \begin{flushleft}
+%% ===== The occurrence of a fault or interrupt sets the cache-to-register mode bit to OFF.
+%% ===== \end{flushleft}
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
+%% ===== 
