@@ -1,2724 +1,466 @@
 
 \section{ADDRESSING -- SEGMENTATION AND PAGING}
 \label {s5}
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+
+
 
 \subsection{ADDRESSING MODES}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The Multics processor is able to access the main memory in either absolute mode or append
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mode. The processor prepares an 18-bit computed address (TPR.CA) for each main memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== reference for instructions or operands using the address preparation algorithms described in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Section 6. This computed address is a scalar index into a virtual memory with an extent of 262,144
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== words.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+
+
+The Multics processor is able to access the main memory in either absolute mode
+or append mode. The processor prepares an 18-bit computed address (TPR.CA) for
+each main memory reference for instructions or operands using the address
+preparation algorithms described in Section 6. This computed address is a
+scalar index into a virtual memory with an extent of 262,144 words.  
+
 
 \subsubsection{Absolute Mode}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== In absolute mode, the appending unit is bypassed for instruction fetches and most operand
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fetches and the final 18-bit computed address (TPR.CA) from address preparation becomes the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== absolute main memory address.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Thus, all instructions to be executed in absolute mode must reside in the low-order 262,144
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== words of main memory, that is, main memory addresses 0 through 262,143. Operands normally
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== also reside in the low-order 262,144 words of main memory but, by specifying in an instruction
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== word that the appending unit be used for the main memory access, operands may reside anywhere
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== in main memory. An appended operand fetch may be specified by:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. Specifying register then indirect (ri) address modification in the instruction word and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== indirect to segment (its) or indirect to pointer (itp) address modification in the indirect
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== word.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. Specifying pointer register modification in the instruction word (bit 29 = 1) and giving a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== pointer register number in the instruction address C(y)0,2.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. Specifying pointer register modification (MFk.AR = 1) in the modification field for an EIS
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== operand descriptor.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The use of any of the above constructs in absolute mode places the processor in append
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mode for one or more address preparation cycles. All necessary registers must be properly loaded,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== all tables of segment descriptor words (SDWs) and page table words (PTWs) expected by the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== appending unit must exist and be properly described, and all fault conditions must be considered
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (see append mode below).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If a transfer of control is made with any of the above constructs, the processor remains in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== append mode after the transfer and subsequent instruction fetches are made in append mode.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Although no segment is defined for absolute mode, it may be helpful to visualize a virtual,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== unpaged segment overlaying the first 262,144 words of main memory.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+
+In absolute mode, the appending unit is bypassed for instruction fetches and
+most operand fetches and the final 18-bit computed address (TPR.CA) from
+address preparation becomes the absolute main memory address.
+
+
+Thus, all instructions to be executed in absolute mode must reside in the
+low-order 262,144 words of main memory, that is, main memory addresses 0
+through 262,143. Operands normally also reside in the low-order 262,144 words
+of main memory but, by specifying in an instruction word that the appending
+unit be used for the main memory access, operands may reside anywhere in main
+memory. An appended operand fetch may be specified by:
+
+
+1. Specifying register then indirect (ri) address modification in the
+instruction word and indirect to segment (its) or indirect to pointer (itp)
+address modification in the indirect word.
+
+
+2. Specifying pointer register modification in the instruction word (bit 29 =
+1) and giving a pointer register number in the instruction address C(y)0,2.
+
+
+3. Specifying pointer register modification (MFk.AR = 1) in the modification
+field for an EIS operand descriptor.
+
+
+The use of any of the above constructs in absolute mode places the processor in
+append mode for one or more address preparation cycles. All necessary registers
+must be properly loaded, all tables of segment descriptor words (SDWs) and page
+table words (PTWs) expected by the appending unit must exist and be properly
+described, and all fault conditions must be considered (see append mode below).
+
+
+If a transfer of control is made with any of the above constructs, the
+processor remains in append mode after the transfer and subsequent instruction
+fetches are made in append mode.
+
+
+Although no segment is defined for absolute mode, it may be helpful to
+visualize a virtual, unpaged segment overlaying the first 262,144 words of main
+memory.
+
+
 
 \subsubsection{Append Mode}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== In append mode, the appending unit is employed for all main memory references.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== appending unit is described later in this section.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+In append mode, the appending unit is employed for all main memory references.
+The appending unit is described later in this section.  
+
+
 
 \subsection{SEGMENTATION}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== In Multics, a segment is defined as an array of arbitrary (but limited) size of machine words
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== containing arbitrary data. A segment is identified within the processor by a segment number
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (segno) unique to the segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== To simplify this discussion, the operation of the hardware ring mechanism is not described
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== although it is an integral part of address preparation. See Section 8 for a discussion of the ring
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mechanism hardware.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A virtual memory address in the processor consists of a pair of integers, (segno,offset) The
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== range of segno is [0,215-1] and the range of offset is [0,218-1]. The description of the segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== whose segno value is n is kept in the nth word-pair in a table known as the descriptor segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The location of the descriptor segment is held by the processor in the descriptor segment base
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== register (DSBR) (see Section 3). Each word-pair of a descriptor segment is known as a segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== descriptor word (SDW) and is 72 bits long (see Figure 5-5).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A bit in the SDW for a segment (SDW.U) specifies whether the segment is paged or
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== unpaged. The following is a simplified description of the appending process for unpaged segments
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (also using an unpaged descriptor segment) (refer to Figures 3-15 and 5-5).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. If 2 * segno $>$= 16 * (DSBR.BND + 1), then generate an access violation, out of segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== bounds, fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. Fetch the target segment SDW from DSBR.ADDR + 2 * segno.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. If SDW.F = 0, then generate directed fault n where n is given in SDW.FC. The value of n
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== used here is the value assigned to define a missing segment fault or, simply, a segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 4. If offset $>$= 16 * (SDW.BOUND + 1), then generate an access violation, out of segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== bounds, fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 5. If the access bits (SDW.R, SDW.E, etc.) of the segment are incompatible with the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== reference, generate the appropriate access violation fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 6. Generate 24-bit absolute main memory address SDW.ADDR + offset.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-1 depicts the relationships just described.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== descriptor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== target
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== DSBR.ADDR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2 * segno
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== offset
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== `
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== SDW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== SDW(segno)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== `
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== data
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 16 * (DSBR..BND + 1)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 16 * (SDW..BOUND + 1)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-1. Main Memory Address Generation for Unpaged Segments
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+In Multics, a segment is defined as an array of arbitrary (but limited) size of
+machine words containing arbitrary data. A segment is identified within the
+processor by a segment number (segno) unique to the segment.
+
+
+To simplify this discussion, the operation of the hardware ring mechanism is
+not described although it is an integral part of address preparation. See
+Section 8 for a discussion of the ring mechanism hardware.
+
+
+A virtual memory address in the processor consists of a pair of integers,
+(segno,offset) The range of segno is [0,215-1] and the range of offset is
+[0,218-1]. The description of the segment whose segno value is n is kept in the
+nth word-pair in a table known as the descriptor segment.  The location of the
+descriptor segment is held by the processor in the descriptor segment base
+register (DSBR) (see Section 3). Each word-pair of a descriptor segment is
+known as a segment descriptor word (SDW) and is 72 bits long (see Figure 5-5).
+
+
+A bit in the SDW for a segment (SDW.U) specifies whether the segment is paged
+or unpaged. The following is a simplified description of the appending process
+for unpaged segments (also using an unpaged descriptor segment) (refer to
+Figures 3-15 and 5-5).
+
+
+1. If 2 * segno $>$= 16 * (DSBR.BND + 1), then generate an access violation,
+out of segment bounds, fault.
+
+
+2. Fetch the target segment SDW from DSBR.ADDR + 2 * segno.
+
+
+3. If SDW.F = 0, then generate directed fault n where n is given in SDW.FC. The
+value of n used here is the value assigned to define a missing segment fault
+or, simply, a segment fault.
+
+
+4. If offset $>$= 16 * (SDW.BOUND + 1), then generate an access violation, out
+of segment bounds, fault.
+
+
+5. If the access bits (SDW.R, SDW.E, etc.) of the segment are incompatible with
+the reference, generate the appropriate access violation fault.
+
+
+6. Generate 24-bit absolute main memory address SDW.ADDR + offset.
+
+
+Figure 5-1 depicts the relationships just described.
+
+
+Figure 5-1. Main Memory Address Generation for Unpaged Segments
+
 
 \subsection{PAGING}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== In Multics, a page is defined as a block of virtual memory with a size of 210 machine words.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The processor is designed in such a way that the page size is adjustable over the range [2 6, 212]
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== but no basis has been found to justify an assertion that any page size is more efficient than 2 10 or
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1024 words.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== The processor divides a k-bit offset or segno value into two parts; the high-order (k-n) bits
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== forming a page number, x, and the low-order n bits forming a word number, y. This may be stated
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== as:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y = (value) modulo (page size)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x = (value - y) / (page size)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The symbols x and y are used in this context throughout this section. An example of page
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== number formation is shown in Figure 5-2.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== offset
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 18
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 0 0
-%% ===== 
-%% ===== 
-%% ===== 7 8
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 8
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 10
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-2. Page Number Formation
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A bit in the SDW for a segment (SDW.U) specifies whether the segment is paged or
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== unpaged. A paged segment may be defined as an array of arbitrary (but limited) size of pages and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== a page may be defined as an array of 1024 machine words. Thus, x is a scalar index into the array
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== of pages, y is a scalar index into the page, and a reference to a word of a paged segment may be
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== treated as a reference to word y of page x of the segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Multics subdivides the virtual memory into page size blocks of 1024 words each. Such a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== subdivision of space allows a segment page to be handled as a physical block independently from
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the other pages of the segment and from other segments. In main memory, the blocks are known
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== as frames; on secondary storage, they are known as records. When a reference to a word in a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== paged segment is required (and the page containing the word is not already in main memory), a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== main memory frame is allocated and the page is read in from secondary storage. Unneeded pages
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== need not occupy space in main memory.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The location and status of page x of a paged segment is kept in the xth word of a table
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== known as the page table for the segment. The words in this table are known as page table words
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (PTWs) (see Figure 5-6).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Any segment may be paged as appropriate and convenient. The address field of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment descriptor word (SDW.ADDR) for a paged segment contains the 24-bit absolute main
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== memory address of the page table for the segment instead of the address of the origin of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment. If the descriptor segment is paged, the address field of the descriptor segment base
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== register (DSBR.ADDR) contains the 24-bit absolute main memory address of the page table for the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== descriptor segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The full algorithm used by the processor to access word offset of paged segment segno
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (including descriptor segment paging) is as follows. (Refer to Figures 3-15, 5-5, and 5-6.)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. If 2 * segno $>$= 16 * (DSBR.BND + 1), then generate an access violation, out of segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== bounds, fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. Form the quantities:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y1 = (2 * segno) modulo 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== x1 = (2 * segno -- y1) / 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. Fetch the descriptor segment PTW(x1) from DSBR.ADR + x1.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 4. If PTW(x1).F = 0, then generate directed fault n where n is given in PTW(x1).FC. The
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== value of n used here is the value assigned to define a missing page fault or, simply, a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 5. Fetch the target segment SDW, SDW(segno), from the descriptor segment page at
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW(x1).ADDR + y1.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 6. If SDW(segno).F = 0, then generate directed fault n where n is given in SDW(segno).FC.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== This is a segment fault as discussed earlier in this section.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 7. If offset $>$= 16 * (SDW(segno).BOUND + 1), then generate an access violation, out of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment bounds, fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 8. If the access bits (SDW(segno).R, SDW(segno).E, etc.) of the segment are incompatible
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== with the reference, generate the appropriate access violation fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 9. Form the quantities:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y2 = offset modulo 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x2 = (offset -- y2) / 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 10.Fetch the target segment PTW(x2) from SDW(segno).ADDR + x2.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 11.If PTW(x2).F = 0, then generate directed fault n where n is given in PTW(x2).FC. This is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== a page fault as in Step 4 above.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 12.Generate the 24-bit absolute main memory address PTW(x2).ADDR + y2.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-3 depicts the relationships described above.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== =
-%% ===== 
-%% ===== 
-%% ===== =
-%% ===== 
-%% ===== 
-%% ===== =
-%% ===== 
-%% ===== 
-%% ===== =
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (2*segno) modulo 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (2 * segno - y1) / 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== offset modulo 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (offset - y2) / 1024
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== descriptor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page table
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== descriptor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== target
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page table
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== DSBR.ADDR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== target
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== `
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== y2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== `
-%% ===== 
-%% ===== 
-%% ===== `
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== data
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW(x2)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== `
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== SDW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW(x1)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== SDW(segno)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1024
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1024
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-3. Main Memory Address Generation for Paged Segments
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
+In Multics, a page is defined as a block of virtual memory with a size of 210
+machine words.  The processor is designed in such a way that the page size is
+adjustable over the range [2 6, 212] but no basis has been found to justify an
+assertion that any page size is more efficient than 2 10 or 1024 words.
+
+
+The processor divides a k-bit offset or segno value into two parts; the
+high-order (k-n) bits forming a page number, x, and the low-order n bits
+forming a word number, y. This may be stated as:
+
+
+y = (value) modulo (page size)
+
+x = (value - y) / (page size)
+
+
+The symbols x and y are used in this context throughout this section. An example of page number formation is shown in Figure 5-2.
+
+Figure 5-2. Page Number Formation
+
+
+A bit in the SDW for a segment (SDW.U) specifies whether the segment is paged
+or unpaged. A paged segment may be defined as an array of arbitrary (but
+limited) size of pages and a page may be defined as an array of 1024 machine
+words. Thus, x is a scalar index into the array of pages, y is a scalar index
+into the page, and a reference to a word of a paged segment may be treated as a
+reference to word y of page x of the segment.
+
+
+Multics subdivides the virtual memory into page size blocks of 1024 words each.
+Such a subdivision of space allows a segment page to be handled as a physical
+block independently from the other pages of the segment and from other
+segments. In main memory, the blocks are known as frames; on secondary storage,
+they are known as records. When a reference to a word in a paged segment is
+required (and the page containing the word is not already in main memory), a
+main memory frame is allocated and the page is read in from secondary storage.
+Unneeded pages need not occupy space in main memory.
+
+
+The location and status of page x of a paged segment is kept in the xth word of
+a table known as the page table for the segment. The words in this table are
+known as page table words (PTWs) (see Figure 5-6).
+
+
+Any segment may be paged as appropriate and convenient. The address field of
+the segment descriptor word (SDW.ADDR) for a paged segment contains the 24-bit
+absolute main memory address of the page table for the segment instead of the
+address of the origin of the segment. If the descriptor segment is paged, the
+address field of the descriptor segment base register (DSBR.ADDR) contains the
+24-bit absolute main memory address of the page table for the descriptor
+segment.
+
+
+The full algorithm used by the processor to access word offset of paged segment
+segno (including descriptor segment paging) is as follows. (Refer to Figures
+3-15, 5-5, and 5-6.)
+
+
+1. If 2 * segno $>$= 16 * (DSBR.BND + 1), then generate an access violation,
+out of segment bounds, fault.
+
+
+2. Form the quantities:
+
+
+y1 = (2 * segno) modulo 1024
+
+x1 = (2 * segno -- y1) / 1024
+
+3. Fetch the descriptor segment PTW(x1) from DSBR.ADR + x1.
+
+4. If PTW(x1).F = 0, then generate directed fault n where n is given in
+PTW(x1).FC. The value of n used here is the value assigned to define a missing
+page fault or, simply, a page fault.
+
+5. Fetch the target segment SDW, SDW(segno), from the descriptor segment page
+at PTW(x1).ADDR + y1.
+
+6. If SDW(segno).F = 0, then generate directed fault n where n is given in
+SDW(segno).FC.  This is a segment fault as discussed earlier in this section.
+
+7. If offset $>$= 16 * (SDW(segno).BOUND + 1), then generate an access
+violation, out of segment bounds, fault.
+
+8. If the access bits (SDW(segno).R, SDW(segno).E, etc.) of the segment are
+incompatible with the reference, generate the appropriate access violation
+fault.
+
+9. Form the quantities:
+
+y2 = offset modulo 1024
+
+x2 = (offset -- y2) / 1024
+
+10.Fetch the target segment PTW(x2) from SDW(segno).ADDR + x2.
+
+
+11.If PTW(x2).F = 0, then generate directed fault n where n is given in
+PTW(x2).FC. This is a page fault as in Step 4 above.
+
+
+12.Generate the 24-bit absolute main memory address PTW(x2).ADDR + y2.
+
+
+Figure 5-3 depicts the relationships described above.
+
+
+Figure 5-3. Main Memory Address Generation for Paged Segments
 
 \subsection{CHANGING ADDRESSING MODES}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The processor is placed in absolute mode by the initialize, initialize and clear, or system
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== initialize functions. The first response to faults and interrupts is in absolute mode and the mode
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== thereafter is determined by the instruction sequence entered through the fault or interrupt trap
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== pair. The processor remains in absolute mode until a transfer of control via the appending unit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== takes place. Note that a Return (ret) or Restore Control Unit (rcu) instruction that sets the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== absolute indicator OFF (see Section 3 for a discussion of the indicators) or a Return Control Double
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (rtcd) instruction also places the processor in append mode.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== When it responds to a fault or interrupt, the processor enters absolute mode temporarily for
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the fetch and execution of the trap pair. If an unappended transfer is executed while in the trap
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== pair, the processor remains in absolute mode, otherwise it returns to append mode.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+The processor is placed in absolute mode by the initialize, initialize and
+clear, or system initialize functions. The first response to faults and
+interrupts is in absolute mode and the mode thereafter is determined by the
+instruction sequence entered through the fault or interrupt trap pair. The
+processor remains in absolute mode until a transfer of control via the
+appending unit takes place. Note that a Return (ret) or Restore Control Unit
+(rcu) instruction that sets the absolute indicator OFF (see Section 3 for a
+discussion of the indicators) or a Return Control Double (rtcd) instruction
+also places the processor in append mode.  
+
+When it responds to a fault or interrupt, the processor enters absolute mode
+temporarily for the fetch and execution of the trap pair. If an unappended
+transfer is executed while in the trap pair, the processor remains in absolute
+mode, otherwise it returns to append mode.
 
 \subsection{ADDRESS APPENDING}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== At the completion of the formation of the virtual memory address (see Section 6) an
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== effective segment number (segno) is in the segment number register of the temporary pointer
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== register (TPR.SNR) and a computed address (offset) is in the computed address register of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== temporary pointer register (TPR.CA). (See Section 3 for a discussion of the temporary pointer
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== register.)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+At the completion of the formation of the virtual memory address (see Section
+6) an effective segment number (segno) is in the segment number register of the
+temporary pointer register (TPR.SNR) and a computed address (offset) is in the
+computed address register of the temporary pointer register (TPR.CA). (See
+Section 3 for a discussion of the temporary pointer register.)
 
 \subsubsection{Address Appending Sequences}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Once segno and offset are formed in TPR.SNR and TPR.CA, respectively, the process of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== generating the 24-bit absolute main memory address can involve a number of different and distinct
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== appending unit cycles.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The operation of the appending unit is shown in the flowchart in Figure 5-4. This flowchart
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== assumes that directed faults, store faults, and parity faults do not occur.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A segment boundary check is made in every cycle except PSDW. If a boundary violation is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== detected, an access violation, out of segment bounds, fault is generated and the execution of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction interrupted. The occurrence of any fault interrupts the sequence at the point of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== occurrence. The operating system software should store the control unit data for possible later
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== continuation and attempt to resolve the fault condition.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The value of the associative memories may be seen in the flowchart by observing the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== number of appending unit cycles bypassed if an SDW or PTW is found in the associative memories.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== There are nine different appending unit cycles that involve accesses to main memory. Two
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== of these (FANP, FAP) generate the 24-bit absolute main memory address and initiate a main
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== memory access for the operand, indirect word, or instruction pair; five (NSDW, PSDW, PTW,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW2, and DSPTW) generate a main memory access to fetch an SDW or PTW; and two (MDSPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== and MPTW) generate a main memory access to update page status bits (PTW.U and PTW.M) in a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW. The cycles are defined in Table 5-1.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Table 5-1. Appending Unit Cycle Definitions
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Cycle name
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Function
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FANP
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Final address nonpaged
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Generates the 24-bit absolute main memory address and initiates a main memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== access to an unpaged segment for operands, indirect words, or instructions.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FAP
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Final address paged
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== Cycle name
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Function
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Generates the 24-bit absolute main memory address and initiates a main memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== access to a paged segment for operands, indirect words, or instructions.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== NSDW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Nonpaged SDW Fetch
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fetches an SDW from an unpaged descriptor segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PSDW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Paged SDW Fetch
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fetches an SDW from a paged descriptor segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW fetch
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fetches a PTW from a page table other than a descriptor segment page table and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== sets the page accessed bit (PTW.U).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Prepage PTW fetch
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fetches the next PTW from a page table other than a descriptor segment page
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== table during hardware prepaging for certain uninterruptible EIS instructions.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== This cycle does not load the next PTW into the appending unit. It merely assures
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== that the PTW is not faulted (PTW.F = 1) and that the target page will be in main
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== memory when and if needed by the instruction.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== DSPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Descriptor segment PTW fetch
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fetches a PTW from a descriptor segment page table.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== MDSPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Modify DSPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Sets the page accessed bit (PTW.U) in the PTW for a page in a descriptor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment page table. This cycle always immediately follows a DSPTW cycle.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== MPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Modify PTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Sets the page modified bit (PTW.M) in the PTW for a page in other than a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== descriptor segment page table.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== START APPEND
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== is SDW in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== SDWAM?
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== is descriptor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment paged?
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== is segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== paged?
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== is PTW in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTWAM?
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== is DSPTW.U
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== set on?
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PSDW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FANP
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== DSPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== MDSPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Prepage
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mode?
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== NSDW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Load
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== SDWAM
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== STR-OP \&
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== PTW.M = 0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== No
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Note: A STR-OP is any processor function
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== that writes data to main memory.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Yes
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== MPTW
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FAP
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== END APPEND
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-4. Appending Unit Operation Flowchart
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Once segno and offset are formed in TPR.SNR and TPR.CA, respectively, the
+process of generating the 24-bit absolute main memory address can involve a
+number of different and distinct appending unit cycles.
+
+The operation of the appending unit is shown in the flowchart in Figure 5-4.
+This flowchart assumes that directed faults, store faults, and parity faults do
+not occur.
+
+A segment boundary check is made in every cycle except PSDW. If a boundary
+violation is detected, an access violation, out of segment bounds, fault is
+generated and the execution of the instruction interrupted. The occurrence of
+any fault interrupts the sequence at the point of occurrence. The operating
+system software should store the control unit data for possible later
+continuation and attempt to resolve the fault condition.
+
+
+The value of the associative memories may be seen in the flowchart by observing
+the number of appending unit cycles bypassed if an SDW or PTW is found in the
+associative memories.
+
+There are nine different appending unit cycles that involve accesses to main
+memory. Two of these (FANP, FAP) generate the 24-bit absolute main memory
+address and initiate a main memory access for the operand, indirect word, or
+instruction pair; five (NSDW, PSDW, PTW, PTW2, and DSPTW) generate a main
+memory access to fetch an SDW or PTW; and two (MDSPTW and MPTW) generate a main
+memory access to update page status bits (PTW.U and PTW.M) in a PTW. The cycles
+are defined in Table 5-1.
+
+Table 5-1. Appending Unit Cycle Definitions
+
+Cycle name Function
+
+FANP Final address nonpaged 
+
+Generates the 24-bit absolute main memory address and initiates a main memory
+access to an unpaged segment for operands, indirect words, or instructions.
+
+FAP Final address paged
+
+Generates the 24-bit absolute main memory address and initiates a main memory 
+access to a paged segment for operands, indirect words, or instructions.
+
+NSDW Nonpaged SDW Fetch
+
+Fetches an SDW from an unpaged descriptor segment.
+
+PSDW Paged SDW Fetch
+
+Fetches an SDW from a paged descriptor segment.
+
+PTW PTW fetch
+
+Fetches a PTW from a page table other than a descriptor segment page table and 
+sets the page accessed bit (PTW.U).
+
+PTW2 Prepage PTW fetch
+
+Fetches the next PTW from a page table other than a descriptor segment page
+table during hardware prepaging for certain uninterruptible EIS instructions.
+This cycle does not load the next PTW into the appending unit. It merely
+assures that the PTW is not faulted (PTW.F = 1) and that the target page will
+be in main memory when and if needed by the instruction.
+
+DSPTW Descriptor segment PTW fetch
+
+Fetches a PTW from a descriptor segment page table.
+
+MDSPTW Modify DSPTW
+
+Sets the page accessed bit (PTW.U) in the PTW for a page in a descriptor
+segment page table. This cycle always immediately follows a DSPTW cycle.
+
+MPTW Modify PTW
+
+Sets the page modified bit (PTW.M) in the PTW for a page in other than a
+descriptor segment page table.
+
+Figure 5-4. Appending Unit Operation Flowchart
 
 \subsection{APPENDING UNIT DATA WORD FORMATS}
 
-
 \subsubsection{Segment Descriptor Word (SDW) Format}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The segment descriptor word (SDW) pair contains information that controls the access to a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== segment. The SDW for segment n is located at offset 2n in the descriptor segment whose
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== description is currently loaded into the descriptor segment base register (DSBR).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== Even word
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2 2
-%% ===== 
-%% ===== 
-%% ===== 3 4
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ADDR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2 2
-%% ===== 
-%% ===== 
-%% ===== 6 7
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== R1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 24
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2 3
-%% ===== 
-%% ===== 
-%% ===== 9 0
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== R2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3 3 3 3
-%% ===== 
-%% ===== 
-%% ===== 2 3 4 5
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== R3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== F
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FC
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Odd word
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 0 0
-%% ===== 
-%% ===== 
-%% ===== 0 1
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1 1 1 1 1 1 2 2 2
-%% ===== 
-%% ===== 
-%% ===== 4 5 6 7 8 9 0 1 2
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== BOUND
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== R E W P U G C
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ER
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 14 1 1 1 1 1 1 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 14
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-5. Segment Descriptor Word (SDW) Format
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Field Name
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Description
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ADDR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 24-bit absolute main memory address of unpaged segment (U=1) or segment page
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== table (U=0)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== R1,R2,R3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Ring brackets (see Section 8)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== F
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed fault flag
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 0 = execute the directed fault specified in FC
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = the unpaged segment or segment page table is in main memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FC
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The number of the directed fault (df0-df3) to be executed if F=0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== BOUND
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 14 high-order bits of the largest 18-bit modulo 16 offset that may be accessed
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== without causing a descriptor violation, out of segment bounds, fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== R
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Read permission bit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== E
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Execute permission bit (xec and xed instructions excluded)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== W
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Write permission bit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== P
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Privileged mode bit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 0 = privileged instructions cannot be executed
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = privileged instructions may be executed if in ring 0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== U
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Paged/unpaged control bit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 0 = segment is paged; ADDR is the 24-bit main memory address of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page table
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = segment is unpaged; ADDR is the 24-bit main memory address of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== origin of the segment
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== G
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Gate indicator bit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 0 = any call into the segment must be to an offset less than the value of EB
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = any legal segment offset may be called
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== C
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Cache control bit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 0 = words (operands or instructions) from this segment may not be placed
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== in the cache memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = words from this segment may be placed in the cache memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== EB
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Entry bound
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Any call into this segment must be to an offset less than EB if G=0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
+The segment descriptor word (SDW) pair contains information that controls the
+access to a segment. The SDW for segment n is located at offset 2n in the
+descriptor segment whose description is currently loaded into the descriptor
+segment base register (DSBR).
+
+Even word
+
+Odd word
+
+Figure 5-5. Segment Descriptor Word (SDW) Format
+
+
+Field Name Description
+
+ADDR 24-bit absolute main memory address of unpaged segment (U=1) or segment
+page table (U=0)
+
+R1,R2,R3 Ring brackets (see Section 8)
+
+F Directed fault flag
+
+0 = execute the directed fault specified in FC
+
+1 = the unpaged segment or segment page table is in main memory
+
+FC The number of the directed fault (df0-df3) to be executed if F=0
+
+BOUND 14 high-order bits of the largest 18-bit modulo 16 offset that may be
+accessed without causing a descriptor violation, out of segment bounds, fault.  
+
+R Read permission bit
+
+E Execute permission bit (xec and xed instructions excluded)
+
+W Write permission bit
+
+P Privileged mode bit
+
+0 = privileged instructions cannot be executed
+
+1 = privileged instructions may be executed if in ring 0
+
+U Paged/unpaged control bit
+
+0 = segment is paged; ADDR is the 24-bit main memory address of the page table
+
+1 = segment is unpaged; ADDR is the 24-bit main memory address of the origin of the segment
+
+G Gate indicator bit
+
+0 = any call into the segment must be to an offset less than the value of EB
+
+1 = any legal segment offset may be called
+
+C Cache control bit
+
+0 = words (operands or instructions) from this segment may not be placed in the
+cache memory
+
+1 = words from this segment may be placed in the cache memory
+
+EB Entry bound
+
+Any call into this segment must be to an offset less than EB if G=0
+
 
 \subsubsection{Page Table Word (PTW) Format}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The page table word (PTW) contains main memory address and status information for a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page of a paged segment.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1 1
-%% ===== 
-%% ===== 
-%% ===== 7 8
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ADDR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2 2 2 2 2 2 2 3
-%% ===== 
-%% ===== 
-%% ===== 3 4 5 6 7 8 9 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3 3 3 3
-%% ===== 
-%% ===== 
-%% ===== 2 3 4 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== x x x x x x 0 0 U 0 0 M x x x F
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 18
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FC
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Figure 5-6. Page Table Word (PTW) Format
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Bits pictured as {``}x'' are ignored by the hardware and may be used by the operating system
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== software.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Field Name
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Description
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ADDR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 18-bit modulo 64 absolute main memory address of page
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The hardware ignores low order bits of the main memory page address according
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== to page size based on the following:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Page Size in words
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 64
-%% ===== 
-%% ===== 
-%% ===== 128
-%% ===== 
-%% ===== 
-%% ===== 256
-%% ===== 
-%% ===== 
-%% ===== 512
-%% ===== 
-%% ===== 
-%% ===== 1024
-%% ===== 
-%% ===== 
-%% ===== 2048
-%% ===== 
-%% ===== 
-%% ===== 4096
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ADDR Bits ignored
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== none
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 17
-%% ===== 
-%% ===== 
-%% ===== 16-17
-%% ===== 
-%% ===== 
-%% ===== 15-17
-%% ===== 
-%% ===== 
-%% ===== 14-17
-%% ===== 
-%% ===== 
-%% ===== 13-17
-%% ===== 
-%% ===== 
-%% ===== 12-17
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== U
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = page has been used (referenced)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== M
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = page has been modified
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== F
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed fault flag
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 0 = page not in main memory; execute directed fault FC
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1 = page is in main memory
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== FC
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== directed fault number for page fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
+The page table word (PTW) contains main memory address and status information
+for a page of a paged segment.
+
+Figure 5-6. Page Table Word (PTW) Format
+
+
+Bits pictured as {``}x'' are ignored by the hardware and may be used by the
+operating system software.
+
+Field Name Description
+
+ADDR 18-bit modulo 64 absolute main memory address of page
+
+
+The hardware ignores low order bits of the main memory page address according
+to page size based on the following:
+
+
+Page Size in words ADDR Bits ignored
+
+64 none
+
+128 17
+
+256 16-17
+
+512 15-17
+
+1024 14-17
+
+2048 13-17
+
+4096 12-17
+
+U 1 = page has been used (referenced)
+
+M 1 = page has been modified
+
+F Directed fault flag
+
+0 = page not in main memory; execute directed fault FC
+
+1 = page is in main memory
+
+FC directed fault number for page fault.
+
+
+
+
+
