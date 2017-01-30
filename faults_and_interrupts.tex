@@ -1,3054 +1,581 @@
 
 \section{FAULTS AND INTERRUPTS}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults and interrupts both result in an interruption of normal sequential processing, but
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== there is a difference in how they originate. Generally, faults are caused by events or conditions
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== that are internal to the processor and interrupts are caused by events or conditions that are
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== external to the processor. Faults and interrupts enable the processor to respond promptly when
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== conditions occur that require system attention.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A unique word-pair is dedicated for the instructions to service each fault and interrupt
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== condition. The instruction pair associated with a fault or interrupt is called the trap pair for that
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault or interrupt. The set of all interrupt trap pairs is called the interrupt vector and is located at
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== absolute main memory address 0. The set of all fault trap pairs is called the fault vector and is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== located at a 0 modulo 32 absolute main memory address whose high-order bits are given by the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== setting of the FAULT BASE switches on the processor configuration panel. The fault vector is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== constrained to lie within the lowest 4096 words of main memory.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Faults and interrupts both result in an interruption of normal sequential
+processing, but there is a difference in how they originate. Generally, faults
+are caused by events or conditions that are internal to the processor and
+interrupts are caused by events or conditions that are external to the
+processor. Faults and interrupts enable the processor to respond promptly when
+conditions occur that require system attention.
+
+
+A unique word-pair is dedicated for the instructions to service each fault and
+interrupt condition. The instruction pair associated with a fault or interrupt
+is called the trap pair for that fault or interrupt. The set of all interrupt
+trap pairs is called the interrupt vector and is located at absolute main
+memory address 0. The set of all fault trap pairs is called the fault vector
+and is located at a 0 modulo 32 absolute main memory address whose high-order
+bits are given by the setting of the FAULT BASE switches on the processor
+configuration panel. The fault vector is constrained to lie within the lowest
+4096 words of main memory.
+
 
 \subsection{FAULT CYCLE SEQUENCE}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Following the detection of a fault condition, the control unit determines the proper time to
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== initiate the fault sequence according to the fault group (Fault groups are discussed later in this
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== section). At that time, the control unit interrupts normal sequential processing with an ABORT
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The ABORT CYCLE brings all overlapped and asynchronous functions within the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== processor to an orderly halt. At the end of the ABORT CYCLE, the control unit initiates a FAULT
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== In the FAULT CYCLE, the processor safe-stores the Control Unit Data (see Section 3) into
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== program-invisible holding registers in preparation for a Store Control Unit (scu) instruction, then
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== enters temporary absolute mode, forces the current ring of execution C(PPR.PRR) to 0, and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== generates a computed address for the fault trap pair by concatenating the setting of the FAULT
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== BASE switches on the processor configuration panel with twice the fault number (see Table 7-1).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== This computed address and the operation code for the Execute Double (xed) instruction are forced
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== into the instruction register and executed as an instruction. Note that the execution of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction is not done in a normal EXECUTE CYCLE but in the FAULT CYCLE with the processor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== in temporary absolute mode.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If the attempt to fetch and execute the instruction pair at the fault trap pair results in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== another fault, the current FAULT CYCLE is aborted and a new FAULT CYCLE for the trouble fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (fault number 31) is initiated. In the FAULT CYCLE for a trouble fault, the processor does not
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== safe-store the Control Unit Data. Therefore, it may be possible to recover the conditions for the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== original fault (except the fault number) by use of the Store Control Unit (scu) instruction. The fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== number may usually be recovered by analysis of the computed address for the original fault trap
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== pair stored in the control unit history registers.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If either of the two instructions in the fault trap pair results in a transfer of control to a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== computed address generated in absolute mode, the absolute mode indicator is set ON for the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== transfer and remains ON thereafter until changed by program action.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If either of the two instructions in the fault trap pair results in a transfer of control to a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== computed address generated in append mode (through the use of bit 29 of the instruction word or
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== by use of the its or itp modifiers), the transfer is made in the append mode and the processor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== remains in append mode thereafter.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If no transfer of control takes place, the processor returns to the mode in effect at the time
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== of the fault and resumes normal sequential execution with the instruction following the faulting
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction (C(PPR.IC) + 1). Note that the current ring of execution C(PPR.PRR) was forced to 0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== during the FAULT CYCLE and that normal sequential execution will resume in ring 0.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== Many of the fault conditions are deliberately or inadvertently caused by the software and do
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== not necessarily involve error conditions. The operating supervisor determines the proper action
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== for each fault condition by analyzing the detailed state of the processor at the time of the fault. In
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== order to accomplish this analysis, it is necessary that the first instruction in each of the fault trap
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== pairs be the Store Control Unit (scu) instruction and the second be a transfer to a fault analysis
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== routine. If a fault condition is to be intentionally ignored, the fault trap pair for that condition
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== should contain an scu/rcu pair referencing a unique Y-block8. By using this pair to ignore a fault,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the state of the processor for the ignored fault condition may be recovered if the ignored fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== causes a trouble fault. The use of the scu/rcu pair also ensures that execution is resumed in the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== original ring of execution.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Table 7-1. List of Faults
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Decimal fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== number
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Octal (1)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== address
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mnemonic
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 0
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== sdf
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Shutdown
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 27
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== str
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Store
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 10
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mme
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Master mode entry 1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 11
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== f1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault tag 1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 17
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 10
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== tro
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Timer runout
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 26
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 12
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cmd
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 9
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 14
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== drl
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Derail
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 15
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 16
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== luf
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Lockup
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 8
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 20
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== con
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Connect
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 25
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 9
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 22
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== par
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Parity
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 8
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 10
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 24
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ipr
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Illegal procedure
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 16
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 11
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 26
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== onc
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Operation not
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== complete
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 4
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 12
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 30
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== suf
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Startup
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 13
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 32
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ofl
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Overflow
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 7
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 14
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 34
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== div
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Divide check
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 15
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 36
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== exf
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Execute
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 1
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 16
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 40
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== df0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed fault 0
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 20
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 17
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 42
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== df1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed fault 1
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 21
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 18
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 44
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== df2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed fault 2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 22
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 19
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 46
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== df3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed fault 3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 23
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 20
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 50
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== acv
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Access violation
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 24
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 6
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 21
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 52
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mme2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Master mode entry 2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 12
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 22
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 54
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mme3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Master mode entry 3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 13
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 23
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 56
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mme4
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Master mode entry 4
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 14
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 24
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 60
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== f2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault tag 2
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 18
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 25
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 62
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== f3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault tag 3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 19
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 5
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 26
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 64
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Unassigned
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 27
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 66
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Unassigned
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault name
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Command
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Priority Group
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== Decimal fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== number
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Octal (1)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== address
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 28
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 70
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Unassigned
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 29
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 72
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Unassigned
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 30
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 74
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Unassigned
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 31
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 76
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mnemonic
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== trb
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault name
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Trouble
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Priority Group
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 3
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 2
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (1)The octal fault address value is the value concatenated with the FAULT BASE switch setting in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== forming the computed address for the fault trap pair.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Following the detection of a fault condition, the control unit determines the
+proper time to initiate the fault sequence according to the fault group (Fault
+groups are discussed later in this section). At that time, the control unit
+interrupts normal sequential processing with an ABORT CYCLE.  The ABORT CYCLE
+brings all overlapped and asynchronous functions within the processor to an
+orderly halt. At the end of the ABORT CYCLE, the control unit initiates a FAULT
+CYCLE.
+
+
+In the FAULT CYCLE, the processor safe-stores the Control Unit Data (see
+Section 3) into program-invisible holding registers in preparation for a Store
+Control Unit (scu) instruction, then enters temporary absolute mode, forces the
+current ring of execution C(PPR.PRR) to 0, and generates a computed address for
+the fault trap pair by concatenating the setting of the FAULT BASE switches on
+the processor configuration panel with twice the fault number (see Table 7-1).
+This computed address and the operation code for the Execute Double (xed)
+instruction are forced into the instruction register and executed as an
+instruction. Note that the execution of the instruction is not done in a normal
+EXECUTE CYCLE but in the FAULT CYCLE with the processor in temporary absolute
+mode.
+
+If the attempt to fetch and execute the instruction pair at the fault trap pair
+results in another fault, the current FAULT CYCLE is aborted and a new FAULT
+CYCLE for the trouble fault (fault number 31) is initiated. In the FAULT CYCLE
+for a trouble fault, the processor does not safe-store the Control Unit Data.
+Therefore, it may be possible to recover the conditions for the original fault
+(except the fault number) by use of the Store Control Unit (scu) instruction.
+The fault number may usually be recovered by analysis of the computed address
+for the original fault trap pair stored in the control unit history registers.
+
+
+If either of the two instructions in the fault trap pair results in a transfer
+of control to a computed address generated in absolute mode, the absolute mode
+indicator is set ON for the transfer and remains ON thereafter until changed by
+program action.
+
+
+If either of the two instructions in the fault trap pair results in a transfer
+of control to a computed address generated in append mode (through the use of
+bit 29 of the instruction word or by use of the its or itp modifiers), the
+transfer is made in the append mode and the processor remains in append mode
+thereafter.
+
+
+If no transfer of control takes place, the processor returns to the mode in
+effect at the time of the fault and resumes normal sequential execution with
+the instruction following the faulting instruction (C(PPR.IC) + 1). Note that
+the current ring of execution C(PPR.PRR) was forced to 0 during the FAULT CYCLE
+and that normal sequential execution will resume in ring 0.
+
+Many of the fault conditions are deliberately or inadvertently caused by the
+software and do not necessarily involve error conditions. The operating
+supervisor determines the proper action for each fault condition by analyzing
+the detailed state of the processor at the time of the fault. In order to
+accomplish this analysis, it is necessary that the first instruction in each of
+the fault trap pairs be the Store Control Unit (scu) instruction and the second
+be a transfer to a fault analysis routine. If a fault condition is to be
+intentionally ignored, the fault trap pair for that condition should contain an
+scu/rcu pair referencing a unique Y-block8. By using this pair to ignore a
+fault, the state of the processor for the ignored fault condition may be
+recovered if the ignored fault causes a trouble fault. The use of the scu/rcu
+pair also ensures that execution is resumed in the original ring of execution.
+
+Table 7-1. List of Faults
+
+Decimal fault number Octal (1) fault address Fault mnemonic Fault name Command Priority Group
+
+0 0 sdf Shutdown 27 7
+
+1 2 str Store 10 4
+
+2 4 mme Master mode entry 1 11 5
+
+3 6 f1 Fault tag 1 17 5
+
+4 10 tro Timer runout 26 7 
+
+5 12 cmd 9 4 
+
+6 14 drl Derail 15 5 
+
+7 16 luf Lockup 5 4 
+
+8 20 con Connect 25 7 
+
+9 22 par Parity 8 4 
+
+10 24 ipr Illegal procedure 16 5 
+
+11 26 onc Operation not complete 4 2 
+
+12 30 suf Startup 1 1 
+
+13 32 ofl Overflow 7 3 
+
+14 34 div Divide check 6 3 
+
+15 36 exf Execute 2 1 
+
+16 40 df0 Directed fault 0 20 6 
+
+17 42 df1 Directed fault 1 21 6 
+
+18 44 df2 Directed fault 2 22 6 
+
+19 46 df3 Directed fault 3 23 6 
+
+20 50 acv Access violation 24 6 
+
+21 52 mme2 Master mode entry 2 12 5 
+
+22 54 mme3 Master mode entry 3 13 5 
+
+23 56 mme4 Master mode entry 4 14 5 
+
+24 60 f2 Fault tag 2 18 5 
+
+25 62 f3 Fault tag 3 19 5 
+
+26 64 Unassigned 
+
+27 66 Unassigned 
+
+28 70 Unassigned 
+
+29 72 Unassigned
+
+30 74 Unassigned 
+
+31 76 trb Trouble 3 2
+
+(1)The octal fault address value is the value concatenated with the FAULT BASE
+switch setting in forming the computed address for the fault trap pair.
 
 \subsection{FAULT PRIORITY}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The processor has provision for 32 faults of which 27 are implemented. The faults are
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== classified into seven fault priority groups that roughly correspond to the severity of the faults.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault priority groups are defined so that fault recognition precedence may be established when
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== two or more faults exist concurrently. Overlapped and asynchronous functions in the processor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== allow the simultaneous occurrence of faults. Group 1 has the highest priority and group 7 has the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== lowest. In groups 1 through 6, only one fault within each group is allowed to be active at any one
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== time. The first fault within a group occurring through the normal program sequence is the one
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== serviced.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Group 7 faults are saved by the hardware for eventual recognition. In the case of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== simultaneous faults within group 7, shutdown has the highest priority with timer runout next and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== connect the lowest.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== There is a single exception to the handling of faults in priority group order. If an operand
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fetch generates a parity fault and the use of the operand in {``}closing out'' instruction execution
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== generates an overflow fault or a divide check fault, these faults are considered simultaneous but
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the parity fault takes precedence.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+The processor has provision for 32 faults of which 27 are implemented. The
+faults are classified into seven fault priority groups that roughly correspond
+to the severity of the faults.  Fault priority groups are defined so that fault
+recognition precedence may be established when two or more faults exist
+concurrently. Overlapped and asynchronous functions in the processor allow the
+simultaneous occurrence of faults. Group 1 has the highest priority and group 7
+has the lowest. In groups 1 through 6, only one fault within each group is
+allowed to be active at any one time. The first fault within a group occurring
+through the normal program sequence is the one serviced.
+
+
+Group 7 faults are saved by the hardware for eventual recognition. In the case
+of simultaneous faults within group 7, shutdown has the highest priority with
+timer runout next and connect the lowest.
+
+There is a single exception to the handling of faults in priority group order.
+If an operand fetch generates a parity fault and the use of the operand in
+{``}closing out'' instruction execution generates an overflow fault or a divide
+check fault, these faults are considered simultaneous but the parity fault
+takes precedence.
 
 \subsection{FAULT RECOGNITION}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== For the discussion following, the term {``}function'' is defined as a major processor functional
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cycle. Examples are: APPEND CYCLE, CA CYCLE, INSTRUCTION FETCH CYCLE, OPERAND
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== STORE CYCLE, DIVIDE EXECUTION CYCLE. Some of these cycles are discussed in various
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== sections of this manual.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults in groups 1 and 2 cause the processor to abort all functions immediately by entering
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== a FAULT CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults in group 3 cause the processor to {``}close out'' current functions without taking any
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== irrevocable action (such as setting PTW.U in an APPEND CYCLE or modifying an indirect word in a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== CA CYCLE), then to discard any pending functions (such as an APPEND CYCLE needed during a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== CA CYCLE), and to enter a FAULT CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults in group 4 cause the processor to suspend overlapped operation, to complete current
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== and pending functions for the current instruction, and then to enter a FAULT CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults in groups 5 or 6 are normally detected during virtual address formation and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction decode. These faults cause the processor to suspend overlapped operation, to complete
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the current and pending instructions, and to enter a FAULT CYCLE. If a fault in a higher priority
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== group is generated by the execution of the current or pending instructions, that higher priority
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault will take precedence and the group 5 or 6 fault will be lost. If a group 5 or 6 fault is detected
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== during execution of the current instruction (e.g., an access violation, out of segment bounds, fault
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== during certain interruptible EIS instructions), the instruction is considered {``}complete'' upon
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== detection of the fault.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults in group 7 are held and processed (with interrupts) at the completion of the current
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction pair. Group 7 faults are inhibitable by setting bit 28 of the instruction word.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Faults in groups 3 through 6 must wait for the system controller to acknowledge the last
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== access request before entering the FAULT CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+For the discussion following, the term {``}function'' is defined as a major
+processor functional cycle. Examples are: APPEND CYCLE, CA CYCLE, INSTRUCTION
+FETCH CYCLE, OPERAND STORE CYCLE, DIVIDE EXECUTION CYCLE. Some of these cycles
+are discussed in various sections of this manual.
+
+Faults in groups 1 and 2 cause the processor to abort all functions immediately by entering a FAULT CYCLE.
+
+Faults in group 3 cause the processor to {``}close out'' current functions
+without taking any irrevocable action (such as setting PTW.U in an APPEND CYCLE
+or modifying an indirect word in a CA CYCLE), then to discard any pending
+functions (such as an APPEND CYCLE needed during a CA CYCLE), and to enter a
+FAULT CYCLE.
+
+Faults in group 4 cause the processor to suspend overlapped operation, to
+complete current and pending functions for the current instruction, and then to
+enter a FAULT CYCLE.  
+
+Faults in groups 5 or 6 are normally detected during virtual address formation
+and instruction decode. These faults cause the processor to suspend overlapped
+operation, to complete the current and pending instructions, and to enter a
+FAULT CYCLE. If a fault in a higher priority group is generated by the
+execution of the current or pending instructions, that higher priority fault
+will take precedence and the group 5 or 6 fault will be lost. If a group 5 or 6
+fault is detected during execution of the current instruction (e.g., an access
+violation, out of segment bounds, fault during certain interruptible EIS
+instructions), the instruction is considered {``}complete'' upon detection of
+the fault.
+
+
+Faults in group 7 are held and processed (with interrupts) at the completion of
+the current instruction pair. Group 7 faults are inhibitable by setting bit 28
+of the instruction word.  
+
+Faults in groups 3 through 6 must wait for the system controller to acknowledge the last access request before entering the FAULT CYCLE.  
 
 \subsection{FAULT DESCRIPTIONS}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-
 \subsubsection{Group 1 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Startup
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== DC POWER has been turned on. When the POWER ON button is pressed, the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== processor is first initialized and then the startup fault is generated.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Execute
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. The EXECUTE pushbutton on the processor maintenance panel has been pressed.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. An external gate signal has been substituted for the EXECUTE pushbutton.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The selection between the above conditions is made by settings of various switches on
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the processor maintenance panel.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Startup 
+
+DC POWER has been turned on. When the POWER ON button is pressed, the processor
+is first initialized and then the startup fault is generated.
+
+Execute
+
+1. The EXECUTE pushbutton on the processor maintenance panel has been pressed.
+
+2. An external gate signal has been substituted for the EXECUTE pushbutton.
+
+The selection between the above conditions is made by settings of various
+switches on the processor maintenance panel.
 
 \subsubsection{Group 2 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Operation Not Complete
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Any of the following will cause an operation not complete fault:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. The processor has addressed a system controller to which it is not attached, that is,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== there is no main memory interface port having its ADDRESS ASSIGNMENT
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== switches set to a value including the main memory address desired.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. The addressed system controller has failed to acknowledge the processor.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. The processor has not generated a main memory access request or a direct
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== operand within 1 to 2 milliseconds and is not executing the Delay Until Interrupt
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Signal (dis) instruction.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 4. A main memory interface port received a data strobe without a preceding
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== acknowledgment from the system controller that it had received the access
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== request.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 5. A main memory interface port received a data strobe before the data previously
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== sent to it was unloaded.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Trouble
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The trouble fault is defined as the occurrence of a fault during the fetch or execution
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== of a fault trap pair or interrupt trap pair. Such faults may be hardware generated (for
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== example, operation not complete or parity), or operating system generated (e.g., the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== page containing a trap pair instruction operand is missing).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
+Operation Not Complete
+
+Any of the following will cause an operation not complete fault:
+
+1. The processor has addressed a system controller to which it is not attached,
+that is, there is no main memory interface port having its ADDRESS ASSIGNMENT
+switches set to a value including the main memory address desired.
+
+2. The addressed system controller has failed to acknowledge the processor.
+
+3. The processor has not generated a main memory access request or a direct
+operand within 1 to 2 milliseconds and is not executing the Delay Until
+Interrupt Signal (dis) instruction.
+
+4. A main memory interface port received a data strobe without a preceding
+acknowledgment from the system controller that it had received the access
+request.
+
+5. A main memory interface port received a data strobe before the data
+previously sent to it was unloaded.
+
+Trouble
+
+The trouble fault is defined as the occurrence of a fault during the fetch or
+execution of a fault trap pair or interrupt trap pair. Such faults may be
+hardware generated (for example, operation not complete or parity), or
+operating system generated (e.g., the page containing a trap pair instruction
+operand is missing).  
 
 \subsubsection{Group 3 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Overflow
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== An arithmetic overflow, exponent overflow, exponent underflow, or EIS truncation
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault has been generated. The generation of this fault is inhibited when the overflow
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mask indicator is ON. Resetting of the overflow mask indicator to OFF does not
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== generate a fault from previously set indicators. The overflow mask state does not
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== affect the setting, testing or storing of indicators. The determination of the specific
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== overflow condition is by indicator testing by the operating supervisor.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Divide Check
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A divide check fault occurs when the actual division cannot be carried out for one of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the reasons specified with individual divide instructions.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Overflow
+
+An arithmetic overflow, exponent overflow, exponent underflow, or EIS
+truncation fault has been generated. The generation of this fault is inhibited
+when the overflow mask indicator is ON. Resetting of the overflow mask
+indicator to OFF does not generate a fault from previously set indicators. The
+overflow mask state does not affect the setting, testing or storing of
+indicators. The determination of the specific overflow condition is by
+indicator testing by the operating supervisor.
+
+Divide Check
+
+A divide check fault occurs when the actual division cannot be carried out for
+one of the reasons specified with individual divide instructions.  
 
 \subsubsection{Group 4 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Store
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The processor attempted to select a disabled port, an out-of-bounds address was
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== generated in the BAR mode or absolute mode, or an attempt was made to access a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== store unit that was not ready.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Command
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. The processor attempted to load or read the interrupt mask register in a system
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== controller in which it did not have an interrupt mask assigned.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. The processor issued an XEC system controller command to a system controller in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== which it did not have an interrupt mask assigned.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. The processor issued a connect to a system controller port that is masked OFF.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 4. The selected system controller is in TEST mode and a condition determined by
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== certain system controller maintenance panel switches has been trapped.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 5. An attempt was made to load a pointer register with packed pointer data in which
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the BITNO field value was greater than or equal to 60(8).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Lockup
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The program is in a code sequence which has inhibited sampling for interrupts
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (whether present or not) and group 7 faults for longer than the prescribed time. In
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== absolute mode or privileged mode the lockup time is 32 milliseconds. In normal mode
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== or BAR mode the lockup time is specified by the setting for the lockup time in the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cache mode register. The lockup time is program settable to 2, 4, 8, or 16
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== milliseconds.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== While in absolute mode or privileged mode the lockup fault is signalled at the end of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the time limit set in the lockup timer but is not recognized until the 32 millisecond
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== limit. If the processor returns to normal mode or BAR mode after the fault has been
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== signalled but before the 32 millisecond limit, the fault is recognized before any
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction in the new mode is executed.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Parity
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. The selected system controller has returned an illegal action signal with an illegal
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== action code for one of the various main memory parity error conditions.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== 2. A cache memory data or directory parity error has occurred either for read, write,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== or block load. Cache status bits for the condition have been set in the cache mode
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== register.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. The processor has detected a parity error in the system controller interface port
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== while either generating outgoing parity or verifying incoming parity.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Store
+
+The processor attempted to select a disabled port, an out-of-bounds address was
+generated in the BAR mode or absolute mode, or an attempt was made to access a
+store unit that was not ready.
+
+Command
+
+1. The processor attempted to load or read the interrupt mask register in a
+system controller in which it did not have an interrupt mask assigned.
+
+2. The processor issued an XEC system controller command to a system controller
+in which it did not have an interrupt mask assigned.  
+
+3. The processor issued a connect to a system controller port that is masked
+OFF.  
+
+4. The selected system controller is in TEST mode and a condition determined by
+certain system controller maintenance panel switches has been trapped.
+
+5. An attempt was made to load a pointer register with packed pointer data in
+which the BITNO field value was greater than or equal to 60(8).
+
+Lockup
+
+The program is in a code sequence which has inhibited sampling for interrupts
+(whether present or not) and group 7 faults for longer than the prescribed
+time. In absolute mode or privileged mode the lockup time is 32 milliseconds.
+In normal mode or BAR mode the lockup time is specified by the setting for the
+lockup time in the cache mode register. The lockup time is program settable to
+2, 4, 8, or 16 milliseconds.  
+
+While in absolute mode or privileged mode the lockup fault is signalled at the
+end of the time limit set in the lockup timer but is not recognized until the
+32 millisecond limit. If the processor returns to normal mode or BAR mode after
+the fault has been signalled but before the 32 millisecond limit, the fault is
+recognized before any instruction in the new mode is executed.
+
+Parity
+
+1. The selected system controller has returned an illegal action signal with an
+illegal action code for one of the various main memory parity error conditions.
+
+2. A cache memory data or directory parity error has occurred either for read,
+write, or block load. Cache status bits for the condition have been set in the
+cache mode register.
+
+3. The processor has detected a parity error in the system controller interface
+port while either generating outgoing parity or verifying incoming parity.  
 
 \subsubsection{Group 5 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Master Mode Entries 1-4
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The corresponding Master Mode Entry instruction has been decoded.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Fault Tags 1-3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The corresponding indirect then tally variation has been detected during virtual
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== address formation.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Derail
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The Derail instruction has been decoded.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Illegal Procedure
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. An illegal operation code has been decoded or an illegal instruction sequence has
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== been encountered.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. An illegal modifier or modifier sequence has been encountered during virtual
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== address formation.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 3. An illegal address has been given in an instruction for which the ADDRESS field is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== used for register selection.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 4. An attempt was made to execute a privileged instruction in normal mode or BAR
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== mode.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 5. An illegal digit was encountered in a decimal numeric operand.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 6. An illegal specification was found in an EIS operand descriptor.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The conditions for the fault will be set in the fault register, word 1 of the Control Unit
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Data, or in both.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Master Mode Entries 1-4
+
+The corresponding Master Mode Entry instruction has been decoded.
+
+Fault Tags 1-3
+
+The corresponding indirect then tally variation has been detected during
+virtual address formation.  
+
+Derail
+
+The Derail instruction has been decoded.
+
+Illegal Procedure
+
+1. An illegal operation code has been decoded or an illegal instruction
+sequence has been encountered.
+
+
+2. An illegal modifier or modifier sequence has been encountered during virtual 
+address formation.
+
+
+3. An illegal address has been given in an instruction for which the ADDRESS
+field is used for register selection.
+
+
+4. An attempt was made to execute a privileged instruction in normal mode or
+BAR mode.  
+
+5. An illegal digit was encountered in a decimal numeric operand.
+
+6. An illegal specification was found in an EIS operand descriptor.
+
+
+The conditions for the fault will be set in the fault register, word 1 of the
+Control Unit Data, or in both.
 
 \subsubsection{Group 6 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Directed Faults 0-3
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A faulted segment descriptor word (SDW) or page table word (PTW) with the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== corresponding directed fault number has been fetched by the appending unit.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Access Violation
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The appending unit has detected one of the several access violations below. Word 1 of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the Control Unit Data contains status bits for the condition.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 1. Not in read bracket (ACV3=ORB)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 2. Not in write bracket (ACV5=OWB)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== 3. Not in execute bracket (ACV1=OEB)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 4. No read permission (ACV4=R-OFF)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 5. No write permission (ACV6=W-OFF)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 6. No execute permission (ACV2=E-OFF)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 7. Invalid ring crossing (ACV12=CRT)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 8. Call limiter fault (ACV7=NO GA)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 9. Outward call (ACV9=OCALL)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 10.Bad outward call (ACV10=BOC)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 11.Inward return (ACV11=INRET)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 12.Ring alarm (ACV13=RALR)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 13.Associative memory error
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 14.Out of segment bounds (ACV15=OOSB)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 15.Illegal ring order (ACV0=IRO)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 16.Out of call brackets (ACV8=OCB)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Directed Faults 0-3
+
+
+A faulted segment descriptor word (SDW) or page table word (PTW) with the
+corresponding directed fault number has been fetched by the appending unit.  
+
+Access Violation
+
+The appending unit has detected one of the several access violations below.
+Word 1 of the Control Unit Data contains status bits for the condition.
+
+1. Not in read bracket (ACV3=ORB)
+
+2. Not in write bracket (ACV5=OWB)
+
+3. Not in execute bracket (ACV1=OEB)
+
+4. No read permission (ACV4=R-OFF)
+
+5. No write permission (ACV6=W-OFF)
+
+6. No execute permission (ACV2=E-OFF)
+
+7. Invalid ring crossing (ACV12=CRT)
+
+8. Call limiter fault (ACV7=NO GA)
+
+9. Outward call (ACV9=OCALL)
+
+10.Bad outward call (ACV10=BOC)
+
+11.Inward return (ACV11=INRET)
+
+12.Ring alarm (ACV13=RALR)
+
+13.Associative memory error
+
+14.Out of segment bounds (ACV15=OOSB)
+
+15.Illegal ring order (ACV0=IRO)
+
+16.Out of call brackets (ACV8=OCB)
 
 \subsubsection{Group 7 Faults}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Shutdown
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== An external power shutdown condition has been detected. DC POWER shutdown will
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== occur in approximately one millisecond.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Timer Runout
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The timer register has decremented to or through the value zero. If the processor is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== in privileged mode or absolute mode, recognition of this fault is delayed until a return
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== to normal mode or BAR mode. Counting in the timer register continues.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Connect
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== A connect signal (\$CON strobe) has been received from a system controller. This
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== event is to be distinguished from a Connect Input/Output Channel (cioc) instruction
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== encountered in the program sequence.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (See the discussion of the floating faults in Section 3).
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Shutdown
+
+An external power shutdown condition has been detected. DC POWER shutdown will 
+occur in approximately one millisecond.
+
+Timer Runout
+
+The timer register has decremented to or through the value zero. If the
+processor is in privileged mode or absolute mode, recognition of this fault is
+delayed until a return to normal mode or BAR mode. Counting in the timer
+register continues.  
+
+Connect
+
+A connect signal (\$CON strobe) has been received from a system controller.
+This event is to be distinguished from a Connect Input/Output Channel (cioc)
+instruction encountered in the program sequence.
+
+(See the discussion of the floating faults in Section 3).
 
 \subsection{INTERRUPTS AND EXTERNAL FAULTS}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Each system controller contains 32 interrupt cells that are used for communication among
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the active system modules (processors, I/O multiplexers, etc.). The interrupt cells are organized in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== a numbered priority chain. Any active system module connected to a system controller port may
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== request the setting of an interrupt cell with the SXC system controller command.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== When one or more interrupt cells in a system controller is set, the system controller
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== activates the interrupt present (XIP) line to all system controller ports having an assigned interrupt
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== mask in which one or more of the interrupt cells that are set is unmasked. Interrupt masks should
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== be assigned only to processors. Each interrupt cell has associated with it a unique interrupt trap
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== pair located at an absolute main memory address equal to twice the cell number.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+Each system controller contains 32 interrupt cells that are used for
+communication among the active system modules (processors, I/O multiplexers,
+etc.). The interrupt cells are organized in a numbered priority chain. Any
+active system module connected to a system controller port may request the
+setting of an interrupt cell with the SXC system controller command.  
 
+When one or more interrupt cells in a system controller is set, the system
+controller activates the interrupt present (XIP) line to all system controller
+ports having an assigned interrupt mask in which one or more of the interrupt
+cells that are set is unmasked. Interrupt masks should be assigned only to
+processors. Each interrupt cell has associated with it a unique interrupt trap
+pair located at an absolute main memory address equal to twice the cell number.  
 \subsubsection{Interrupt Sampling}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The processor always fetches instructions in pairs. At an appropriate point (as early as
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== possible) in the execution of a pair of instructions, the next sequential instruction pair is fetched
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== and held in a special instruction buffer register. The exact point depends on instruction sequence
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== and other conditions
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If the interrupt inhibit bit (bit 28) is not set in the current instruction word at the point of
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== next sequential instruction pair virtual address formation, the processor samples the group 7
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== faults. If any of the group 7 faults is found an internal flag is set reflecting the presence of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault. The processor next samples the interrupt present lines from all eight memory interface ports
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== and loads a register with bits corresponding to the states of the lines. If any bit in the register is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== set ON an internal flag is set to reflect the presence of the bit(s) in the register.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If the instruction pair virtual address being formed is the result of a transfer of control
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== condition or if the current instruction is Execute (xec), Execute Double (xed), Repeat (rpt), Repeat
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Double (rpd), or Repeat Link (rpl), the group 7 faults and interrupt present lines are not sampled.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== At an appropriate point in the execution of the current instruction pair, the processor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fetches the next instruction pair. At this point, it first tests the internal flags for group 7 faults and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== interrupts. If either flag is set it does not fetch the next instruction pair.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== At the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== internal flags.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== flag for group
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault present.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== completion of the current instruction pair the processor once again checks the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If neither flag is set, execution of the next instruction pair proceeds. If the internal
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 7 faults is set, the processor enters a FAULT CYCLE for the highest priority group 7
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If the internal flag for interrupts is set, the processor enters an INTERRUPT CYCLE.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
+The processor always fetches instructions in pairs. At an appropriate point (as
+early as possible) in the execution of a pair of instructions, the next
+sequential instruction pair is fetched and held in a special instruction buffer
+register. The exact point depends on instruction sequence and other conditions
+
+If the interrupt inhibit bit (bit 28) is not set in the current instruction
+word at the point of next sequential instruction pair virtual address
+formation, the processor samples the group 7 faults. If any of the group 7
+faults is found an internal flag is set reflecting the presence of the fault.
+The processor next samples the interrupt present lines from all eight memory
+interface ports and loads a register with bits corresponding to the states of
+the lines. If any bit in the register is set ON an internal flag is set to
+reflect the presence of the bit(s) in the register.
+
+If the instruction pair virtual address being formed is the result of a
+transfer of control condition or if the current instruction is Execute (xec),
+Execute Double (xed), Repeat (rpt), Repeat Double (rpd), or Repeat Link (rpl),
+the group 7 faults and interrupt present lines are not sampled.  
+
+At an appropriate point in the execution of the current instruction pair, the
+processor fetches the next instruction pair. At this point, it first tests the
+internal flags for group 7 faults and interrupts. If either flag is set it does
+not fetch the next instruction pair.  
+
+At the completion of the current instruction pair the processor once again
+checks the internal flags.  If neither flag is set, execution of the next
+instruction pair proceeds. If the internal flag for group 7 faults is set, the
+processor enters a FAULT CYCLE for the highest priority group 7 fault present.
+If the internal flag for interrupts is set, the processor enters an INTERRUPT
+CYCLE.  
 
 \subsubsection{Interrupt Cycle Sequence}
 
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== In the INTERRUPT CYCLE, the processor safe-stores the Control Unit Data (see Section 3)
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== into program-invisible holding registers in preparation for a Store Control Unit (scu) instruction,
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== enters temporary absolute mode, and forces the current ring of execution C(PPR.PRR) to 0. It then
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== issues an XEC system controller command to the system controller on the highest priority port for
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== which there is a bit set in the interrupt present register.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The selected system controller responds by clearing its highest priority interrupt cell and
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== returning the interrupt trap pair address for that cell to the processor.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If there is no interrupt cell set in the selected system controller (implying that all have been
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== cleared in response to XEC system controller commands from other processors), the system
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== controller returns the address value 1, which is not a valid interrupt trap pair address. The
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== processor senses this value, aborts the INTERRUPT CYCLE, and returns to normal sequential
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction processing.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The interrupt trap pair address returned and the operation code for the Execute Double
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== (xed) instruction are forced into the instruction register and executed as an instruction. Note that
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the execution of the instruction is not done in a normal EXECUTE CYCLE but in the INTERRUPT
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== CYCLE with the processor in temporary absolute mode.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If the attempt to fetch and execute the instruction pair at the interrupt trap pair results in a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fault, the INTERRUPT CYCLE is aborted and a FAULT CYCLE for the trouble fault (fault number
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 31) is initiated. In the FAULT CYCLE for a trouble fault, the processor does not safe-store the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Control Unit Data. Therefore, it may be possible to recover the conditions for the interrupt (except
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the interrupt number) by use of the Store Control Unit (scu) instruction. The interrupt number
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
-%% ===== may usually be recovered by analysis of the computed address for the interrupt trap pair stored in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== the control unit history registers.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If either of the two instructions in the interrupt trap pair results in a transfer of control to a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== computed address generated in absolute mode, the absolute mode indicator is set ON for the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== transfer and remains ON thereafter until changed by program action.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If either of the two instructions in the interrupt trap pair results in a transfer of control to a
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== computed address generated in append mode (through the use of bit 29 of the instruction word or
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== by use of the itp or its modifiers), the transfer is made in the append mode and and the processor
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== remains in append mode thereafter.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== If no transfer of control takes place, the processor returns to the mode in effect at the time
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== of the interrupt and resumes normal sequential execution with the instruction following the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== interrupted instruction (C(PPR.IC) + 1). Note that the current ring of execution C(PPR.PRR) was
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== forced to 0 during the INTERRUPT CYCLE and that normal sequential execution will resume in
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== ring 0.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Due to the time required for many of the EIS data movement instructions, additional group
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== 7 fault and interrupt sampling is done during these instructions. After the initial load of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== decimal unit input data buffer, group 7 faults and interrupts are sampled for each input operand
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== virtual address formation. The instruction in execution is interrupted before the operand is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== fetched and flags are set into Control Unit Data and Decimal Unit Data to allow the restart of the
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== instruction.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== NOTE:
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== The execution of a Store Pointers and Lengths (spl) instruction is required before an
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== interrupted EIS instruction may be restarted. Therefore, a fault or interrupt handling
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== routine must execute this instruction even though it does not use the decimal unit for its
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== processing.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== Many of the interrupts are deliberately or inadvertently caused by the software and do not
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== necessarily involve error conditions. The operating supervisor determines the proper action for
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== each interrupt by analyzing the detailed state of the processor at the time of the interrupt. In
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== order to accomplish this analysis, it is necessary that the first instruction in each of the interrupt
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== trap pairs be the Store Control Unit (scu) instruction and the second be a transfer to an interrupt
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== analysis routine. If an interrupt is to be intentionally ignored, the trap pair for that interrupt
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== should contain an scu/rcu pair referencing a unique Y-block8. By using this pair to ignore an
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== interrupt, the state of the processor for the ignored interrupt may be recovered if the ignored
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== interrupt causes a trouble fault. The use of the scu/rcu pair also ensures that execution is
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== resumed in the original ring of execution.
-%% ===== \end{flushleft}
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== 
-%% ===== \begin{flushleft}
-%% ===== \newpage
+In the INTERRUPT CYCLE, the processor safe-stores the Control Unit Data (see
+Section 3) into program-invisible holding registers in preparation for a Store
+Control Unit (scu) instruction, enters temporary absolute mode, and forces the
+current ring of execution C(PPR.PRR) to 0. It then issues an XEC system
+controller command to the system controller on the highest priority port for
+which there is a bit set in the interrupt present register.
+
+
+The selected system controller responds by clearing its highest priority
+interrupt cell and returning the interrupt trap pair address for that cell to
+the processor.
+
+If there is no interrupt cell set in the selected system controller (implying
+that all have been cleared in response to XEC system controller commands from
+other processors), the system controller returns the address value 1, which is
+not a valid interrupt trap pair address. The processor senses this value,
+aborts the INTERRUPT CYCLE, and returns to normal sequential instruction
+processing.
+
+
+The interrupt trap pair address returned and the operation code for the Execute
+Double (xed) instruction are forced into the instruction register and executed
+as an instruction. Note that the execution of the instruction is not done in a
+normal EXECUTE CYCLE but in the INTERRUPT CYCLE with the processor in temporary
+absolute mode.
+
+
+If the attempt to fetch and execute the instruction pair at the interrupt trap
+pair results in a fault, the INTERRUPT CYCLE is aborted and a FAULT CYCLE for
+the trouble fault (fault number 31) is initiated. In the FAULT CYCLE for a
+trouble fault, the processor does not safe-store the Control Unit Data.
+Therefore, it may be possible to recover the conditions for the interrupt
+(except the interrupt number) by use of the Store Control Unit (scu)
+instruction. The interrupt number may usually be recovered by analysis of the
+computed address for the interrupt trap pair stored in the control unit history
+registers.
+
+
+If either of the two instructions in the interrupt trap pair results in a
+transfer of control to a computed address generated in absolute mode, the
+absolute mode indicator is set ON for the transfer and remains ON thereafter
+until changed by program action.
+
+
+If either of the two instructions in the interrupt trap pair results in a
+transfer of control to a computed address generated in append mode (through the
+use of bit 29 of the instruction word or by use of the itp or its modifiers),
+the transfer is made in the append mode and and the processor remains in append
+mode thereafter.
+
+If no transfer of control takes place, the processor returns to the mode in
+effect at the time of the interrupt and resumes normal sequential execution
+with the instruction following the interrupted instruction (C(PPR.IC) + 1).
+Note that the current ring of execution C(PPR.PRR) was forced to 0 during the
+INTERRUPT CYCLE and that normal sequential execution will resume in ring 0.
+
+Due to the time required for many of the EIS data movement instructions,
+additional group 7 fault and interrupt sampling is done during these
+instructions. After the initial load of the decimal unit input data buffer,
+group 7 faults and interrupts are sampled for each input operand virtual
+address formation. The instruction in execution is interrupted before the
+operand is fetched and flags are set into Control Unit Data and Decimal Unit
+Data to allow the restart of the instruction.
+
+
+NOTE: The execution of a Store Pointers and Lengths (spl) instruction is
+required before an interrupted EIS instruction may be restarted. Therefore, a
+fault or interrupt handling routine must execute this instruction even though
+it does not use the decimal unit for its processing.
+
+
+Many of the interrupts are deliberately or inadvertently caused by the software
+and do not necessarily involve error conditions. The operating supervisor
+determines the proper action for each interrupt by analyzing the detailed state
+of the processor at the time of the interrupt. In order to accomplish this
+analysis, it is necessary that the first instruction in each of the interrupt
+trap pairs be the Store Control Unit (scu) instruction and the second be a
+transfer to an interrupt analysis routine. If an interrupt is to be
+intentionally ignored, the trap pair for that interrupt should contain an
+scu/rcu pair referencing a unique Y-block8. By using this pair to ignore an
+interrupt, the state of the processor for the ignored interrupt may be
+recovered if the ignored interrupt causes a trouble fault. The use of the
+scu/rcu pair also ensures that execution is resumed in the original ring of
+execution.
+
+
+
+
+
